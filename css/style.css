@@ -120,6 +120,42 @@ body {
 
 .header-actions {
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.lang-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.lang-switch a {
+  display: inline-block;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.lang-switch a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in oklab, var(--accent-soft) 40%, var(--bg-elev));
+}
+
+.lang-switch a[aria-current="page"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  cursor: default;
 }
 
 /* Main */
