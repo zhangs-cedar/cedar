@@ -3,20 +3,145 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>cedar · 纯静态 Pages 示例</title>
+    <meta
+      name="description"
+      content="个人简历 — 专业履历与项目摘要（静态页，可打印）。"
+    />
+    <title>个人简历 · cedar</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <main class="wrap">
-      <p class="badge">GitHub Pages · Actions · 零构建</p>
-      <h1>cedar</h1>
-      <p class="lead">
-        本页由仓库根目录直接上传；无 Node/Python 构建步骤。推送 <code>main</code> 后由
-        Workflow <strong>L</strong> 部署。
-      </p>
-      <p id="stamp" class="stamp" aria-live="polite"></p>
-      <button type="button" id="ping" class="btn">点一下（JS 自检）</button>
+    <a class="skip" href="#content">跳到正文</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="identity">
+          <h1 class="name">您的姓名</h1>
+          <p class="title">高级软件工程师 · 全栈 / 平台方向（请按实际修改）</p>
+        </div>
+        <ul class="contact" aria-label="联系方式">
+          <li>
+            <a href="mailto:you@example.com">you@example.com</a>
+          </li>
+          <li>
+            <a href="https://github.com/zhangs-cedar" rel="noopener noreferrer">GitHub</a>
+          </li>
+          <li>
+            <span class="contact-note">城市 · 可远程</span>
+          </li>
+        </ul>
+        <p class="header-actions no-print">
+          <button type="button" id="print" class="btn btn-ghost">打印 / PDF</button>
+        </p>
+      </div>
+    </header>
+
+    <main id="content" class="wrap main">
+      <section class="block" aria-labelledby="summary-heading">
+        <h2 id="summary-heading">专业概要</h2>
+        <p class="prose">
+          用 3–5
+          句话写清领域、年限、核心能力与代表性成果（指标化更佳）。本段为占位，请替换为真实表述；保持动词开头、结果导向，避免空泛形容词。
+        </p>
+      </section>
+
+      <section class="block" aria-labelledby="exp-heading">
+        <h2 id="exp-heading">工作经历</h2>
+        <ol class="timeline">
+          <li>
+            <article class="entry">
+              <header class="entry-head">
+                <h3 class="entry-title">公司名称 · 职位</h3>
+                <p class="entry-meta">
+                  <time datetime="2022-01">2022-01</time>
+                  —
+                  <time datetime="2026-04">至今</time>
+                  · 上海
+                </p>
+              </header>
+              <ul class="bullets">
+                <li>
+                  负责 XX 产品线核心模块；将关键路径延迟从 A 降至 B（给出区间或百分比）。
+                </li>
+                <li>
+                  主导技术方案评审与落地，覆盖 N 名工程师协作，发布节奏从 X 提升到 Y。
+                </li>
+                <li>
+                  技术栈示例：TypeScript、Go、Kubernetes、PostgreSQL（按实际删改）。
+                </li>
+              </ul>
+            </article>
+          </li>
+          <li>
+            <article class="entry">
+              <header class="entry-head">
+                <h3 class="entry-title">前公司 · 职位</h3>
+                <p class="entry-meta">
+                  <time datetime="2018-06">2018-06</time>
+                  —
+                  <time datetime="2021-12">2021-12</time>
+                  · 北京
+                </p>
+              </header>
+              <ul class="bullets">
+                <li>用 STAR 结构写 2–4 条，突出业务价值与可验证结果。</li>
+                <li>避免只列职责清单；每条尽量包含场景、动作、量化 outcome。</li>
+              </ul>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section class="block" aria-labelledby="edu-heading">
+        <h2 id="edu-heading">教育背景</h2>
+        <ul class="flat-list">
+          <li>
+            <span class="flat-main">学校全称 · 专业 · 学历</span>
+            <span class="flat-sub">2014 — 2018</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="block" aria-labelledby="skills-heading">
+        <h2 id="skills-heading">技能与工具</h2>
+        <p class="prose tight">
+          语言与运行时、框架、数据存储、云平台、工程化（CI/CD、可观测性）等，按熟练度分组；控制在一屏内，打印时保持可读。
+        </p>
+        <ul class="tags" aria-label="技能标签">
+          <li>系统设计</li>
+          <li>性能与稳定性</li>
+          <li>API 与契约</li>
+          <li>自动化测试</li>
+          <li>代码评审 / 技术写作</li>
+        </ul>
+      </section>
+
+      <section class="block" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">项目精选</h2>
+        <ul class="project-list">
+          <li>
+            <a href="https://zhangs-cedar.github.io/cedar/" rel="noopener noreferrer"
+              >cedar · 静态交付与演示入口</a
+            >
+            <span class="project-desc"
+              >GitHub Pages + Actions，零构建部署；可链到其他可视化成果。</span
+            >
+          </li>
+        </ul>
+      </section>
+
+      <p id="stamp" class="stamp no-print" aria-live="polite"></p>
     </main>
+
+    <footer class="site-footer no-print">
+      <div class="wrap footer-inner">
+        <p class="footer-note">
+          本页为纯静态 HTML，修改 <code>index.html</code> 与 <code>css/style.css</code> 后推送
+          <code>main</code> 即可更新。
+        </p>
+      </div>
+    </footer>
+
     <script src="js/main.js"></script>
   </body>
 </html>
