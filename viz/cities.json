@@ -1,0 +1,282 @@
+[
+  {
+    "name": "安庆",
+    "slug": "anqing"
+  },
+  {
+    "name": "包头",
+    "slug": "baotou"
+  },
+  {
+    "name": "北海",
+    "slug": "beihai"
+  },
+  {
+    "name": "北京",
+    "slug": "beijing"
+  },
+  {
+    "name": "蚌埠",
+    "slug": "bengbu"
+  },
+  {
+    "name": "长春",
+    "slug": "changchun"
+  },
+  {
+    "name": "常德",
+    "slug": "changde"
+  },
+  {
+    "name": "长沙",
+    "slug": "changsha"
+  },
+  {
+    "name": "成都",
+    "slug": "chengdu"
+  },
+  {
+    "name": "重庆",
+    "slug": "chongqing"
+  },
+  {
+    "name": "大理",
+    "slug": "dali"
+  },
+  {
+    "name": "大连",
+    "slug": "dalian"
+  },
+  {
+    "name": "丹东",
+    "slug": "dandong"
+  },
+  {
+    "name": "福州",
+    "slug": "fuzhou"
+  },
+  {
+    "name": "赣州",
+    "slug": "ganzhou"
+  },
+  {
+    "name": "广州",
+    "slug": "guangzhou"
+  },
+  {
+    "name": "桂林",
+    "slug": "guilin"
+  },
+  {
+    "name": "贵阳",
+    "slug": "guiyang"
+  },
+  {
+    "name": "海口",
+    "slug": "haikou"
+  },
+  {
+    "name": "杭州",
+    "slug": "hangzhou"
+  },
+  {
+    "name": "哈尔滨",
+    "slug": "harbin"
+  },
+  {
+    "name": "合肥",
+    "slug": "hefei"
+  },
+  {
+    "name": "呼和浩特",
+    "slug": "hohhot"
+  },
+  {
+    "name": "惠州",
+    "slug": "huizhou"
+  },
+  {
+    "name": "吉林",
+    "slug": "jilin"
+  },
+  {
+    "name": "济南",
+    "slug": "jinan"
+  },
+  {
+    "name": "金华",
+    "slug": "jinhua"
+  },
+  {
+    "name": "济宁",
+    "slug": "jining"
+  },
+  {
+    "name": "锦州",
+    "slug": "jinzhou"
+  },
+  {
+    "name": "九江",
+    "slug": "jiujiang"
+  },
+  {
+    "name": "昆明",
+    "slug": "kunming"
+  },
+  {
+    "name": "兰州",
+    "slug": "lanzhou"
+  },
+  {
+    "name": "洛阳",
+    "slug": "luoyang"
+  },
+  {
+    "name": "泸州",
+    "slug": "luzhou"
+  },
+  {
+    "name": "牡丹江",
+    "slug": "mudanjiang"
+  },
+  {
+    "name": "南昌",
+    "slug": "nanchang"
+  },
+  {
+    "name": "南充",
+    "slug": "nanchong"
+  },
+  {
+    "name": "南京",
+    "slug": "nanjing"
+  },
+  {
+    "name": "南宁",
+    "slug": "nanning"
+  },
+  {
+    "name": "宁波",
+    "slug": "ningbo"
+  },
+  {
+    "name": "平顶山",
+    "slug": "pingdingshan"
+  },
+  {
+    "name": "青岛",
+    "slug": "qingdao"
+  },
+  {
+    "name": "秦皇岛",
+    "slug": "qinhuangdao"
+  },
+  {
+    "name": "泉州",
+    "slug": "quanzhou"
+  },
+  {
+    "name": "三亚",
+    "slug": "sanya"
+  },
+  {
+    "name": "上海",
+    "slug": "shanghai"
+  },
+  {
+    "name": "韶关",
+    "slug": "shaoguan"
+  },
+  {
+    "name": "沈阳",
+    "slug": "shenyang"
+  },
+  {
+    "name": "深圳",
+    "slug": "shenzhen"
+  },
+  {
+    "name": "石家庄",
+    "slug": "shijiazhuang"
+  },
+  {
+    "name": "太原",
+    "slug": "taiyuan"
+  },
+  {
+    "name": "唐山",
+    "slug": "tangshan"
+  },
+  {
+    "name": "天津",
+    "slug": "tianjin"
+  },
+  {
+    "name": "乌鲁木齐",
+    "slug": "urumqi"
+  },
+  {
+    "name": "温州",
+    "slug": "wenzhou"
+  },
+  {
+    "name": "武汉",
+    "slug": "wuhan"
+  },
+  {
+    "name": "无锡",
+    "slug": "wuxi"
+  },
+  {
+    "name": "厦门",
+    "slug": "xiamen"
+  },
+  {
+    "name": "西安",
+    "slug": "xian"
+  },
+  {
+    "name": "襄阳",
+    "slug": "xiangyang"
+  },
+  {
+    "name": "西宁",
+    "slug": "xining"
+  },
+  {
+    "name": "徐州",
+    "slug": "xuzhou"
+  },
+  {
+    "name": "扬州",
+    "slug": "yangzhou"
+  },
+  {
+    "name": "烟台",
+    "slug": "yantai"
+  },
+  {
+    "name": "宜昌",
+    "slug": "yichang"
+  },
+  {
+    "name": "银川",
+    "slug": "yinchuan"
+  },
+  {
+    "name": "岳阳",
+    "slug": "yueyang"
+  },
+  {
+    "name": "湛江",
+    "slug": "zhanjiang"
+  },
+  {
+    "name": "郑州",
+    "slug": "zhengzhou"
+  },
+  {
+    "name": "遵义",
+    "slug": "zunyi"
+  }
+]
