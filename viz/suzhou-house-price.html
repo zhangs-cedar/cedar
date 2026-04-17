@@ -3,30 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="苏州新房与二手房单价趋势（静态 Altair 图）。"
-    />
-    <title>苏州房价变化 · cedar</title>
+    <meta name="description" content="苏州新房与二手房单价趋势。" />
+    <title>苏州房价 · cedar</title>
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body class="viz-page">
     <a class="skip" href="#chart">跳到图表</a>
     <div class="wrap--chart">
-      <nav class="viz-nav" aria-label="页面导航">
-        <a href="../index.html">← cedar 首页</a>
-        <span class="sep">·</span>
-        <a href="index.html">可视化索引</a>
-        <span class="sep">·</span>
-        <a href="gold-reserves.html">黄金储备变化</a>
-      </nav>
-      <p class="viz-prose">
-        数据与制图来自 <code>cn-gold-house-price</code>（<code>glod.py suzhou</code>）；展示苏州新房/二手房元/㎡ 趋势。
-      </p>
+      <a class="viz-back" href="../index.html">‹ cedar</a>
+      <p class="viz-note">静态图表（iframe 内嵌）。</p>
       <iframe
         id="chart"
         class="viz-frame"
-        title="苏州新房与二手房单价趋势"
+        title="苏州房价"
         src="embed/suzhou-house-price-trend.html"
         loading="lazy"
       ></iframe>
