@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="cedar 静态站：黄金储备与苏州房价等宏观经济可视化入口。"
+    />
+    <title>数据可视化 · cedar</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#content">跳到正文</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="identity">
+          <h1 class="name">数据可视化</h1>
+          <p class="title">
+            黄金储备、苏州房价等图表；由 skill 生成 HTML 后纳入本站静态托管，无构建步骤。
+          </p>
+        </div>
+        <ul class="contact" aria-label="站内链接">
+          <li><a href="../index.html">站点首页</a></li>
+          <li><a href="../resume/zh.html">中文简历</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main id="content" class="wrap main">
+      <section class="block" aria-labelledby="charts-heading">
+        <h2 id="charts-heading">图表</h2>
+        <ul class="project-list">
+          <li>
+            <a href="gold-reserves.html">央行黄金储备变化</a>
+            <span class="project-desc"
+              >储备水平折线 + 月度增减柱状（万盎司）。</span
+            >
+          </li>
+          <li>
+            <a href="suzhou-house-price.html">苏州房价变化</a>
+            <span class="project-desc">新房与二手房单价（元/㎡）趋势。</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="block" aria-labelledby="maint-heading">
+        <h2 id="maint-heading">更新方式</h2>
+        <p class="prose">
+          在机器上运行 skill 脚本重新导出 HTML，覆盖
+          <code>viz/embed/</code> 下对应文件后提交推送即可（详见仓库内 skill
+          <code>cn-gold-house-price</code> 说明）。
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer no-print">
+      <div class="wrap footer-inner">
+        <p class="footer-note">
+          <a href="../index.html">← 返回 cedar 首页</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

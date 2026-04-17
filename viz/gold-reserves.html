@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="中国人民银行黄金储备月度趋势与购金变化量（静态 Altair 图）。"
+    />
+    <title>黄金储备变化 · cedar</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body class="viz-page">
+    <a class="skip" href="#chart">跳到图表</a>
+    <div class="wrap--chart">
+      <nav class="viz-nav" aria-label="页面导航">
+        <a href="../index.html">← cedar 首页</a>
+        <span class="sep">·</span>
+        <a href="index.html">可视化索引</a>
+        <span class="sep">·</span>
+        <a href="suzhou-house-price.html">苏州房价变化</a>
+      </nav>
+      <p class="viz-prose">
+        数据与制图来自本地 skill
+        <code>cn-gold-house-price</code>（<code>glod.py gold</code>）；图为自包含
+        Vega-Lite，内嵌于下方 iframe。
+      </p>
+      <iframe
+        id="chart"
+        class="viz-frame"
+        title="央行黄金储备：趋势与月度变化量"
+        src="embed/gold-reserves-trend.html"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </body>
+</html>

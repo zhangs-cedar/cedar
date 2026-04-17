@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="张松 · cedar 静态站：中英文简历与项目入口。"
+      content="张松 · cedar 静态站：中英文简历、黄金储备与苏州房价等可视化入口。"
     />
     <title>张松 · cedar</title>
     <link rel="stylesheet" href="css/style.css" />
@@ -33,9 +33,10 @@
           </li>
         </ul>
         <div class="header-actions no-print">
-          <nav class="lang-switch" aria-label="简历语言">
+          <nav class="lang-switch" aria-label="站内导航">
             <a href="resume/zh.html" lang="zh-CN">中文简历</a>
             <a href="resume/en.html" lang="en">English résumé</a>
+            <a href="viz/index.html">数据可视化</a>
           </nav>
         </div>
       </div>
@@ -67,6 +68,29 @@
         </ul>
       </section>
 
+      <section class="block" aria-labelledby="viz-heading">
+        <h2 id="viz-heading">宏观经济可视化</h2>
+        <p class="prose">
+          央行黄金储备月度趋势与购金变化、苏州新房/二手房单价走势；图表由
+          <code>cn-gold-house-price</code> skill 导出为静态 HTML，托管于
+          <code>viz/</code>。
+        </p>
+        <ul class="project-list">
+          <li>
+            <a href="viz/index.html">可视化索引</a>
+            <span class="project-desc">黄金与房价图表入口与维护说明。</span>
+          </li>
+          <li>
+            <a href="viz/gold-reserves.html">黄金储备变化</a>
+            <span class="project-desc">储备曲线与月度变化量。</span>
+          </li>
+          <li>
+            <a href="viz/suzhou-house-price.html">苏州房价变化</a>
+            <span class="project-desc">元/㎡ 趋势图。</span>
+          </li>
+        </ul>
+      </section>
+
       <section class="block" aria-labelledby="projects-heading">
         <h2 id="projects-heading">项目精选</h2>
         <ul class="project-list">
@@ -87,7 +111,7 @@
     <footer class="site-footer no-print">
       <div class="wrap footer-inner">
         <p class="footer-note">
-          修改 <code>resume/zh.html</code>、<code>resume/en.html</code> 或
+          修改 <code>resume/</code>、<code>viz/</code> 或
           <code>css/style.css</code> 后推送 <code>main</code> 即可更新站点。
         </p>
       </div>
