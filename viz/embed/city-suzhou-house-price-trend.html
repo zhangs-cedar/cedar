@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>苏州房价成交均价</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+      html, body { margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }
+      .wrap { padding: 18px 18px 6px; }
+      .meta { margin: 0 0 12px; color: #6e6e73; font-size: 13px; }
+      #chart { width: 100%; height: 640px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="meta">苏州 · 成交均价（元/㎡） · 数据源：cn-gold-house-price/suzhou_house_price.json</p>
+      <div id="chart"></div>
+    </div>
+    <script>
+      const rows = [{"month": "2011-01", "new": null, "second": 9067.0}, {"month": "2011-02", "new": null, "second": 9194.0}, {"month": "2011-03", "new": null, "second": 9417.0}, {"month": "2011-04", "new": null, "second": 9920.0}, {"month": "2011-05", "new": null, "second": 10051.0}, {"month": "2011-06", "new": null, "second": 10150.0}, {"month": "2011-07", "new": null, "second": 10207.0}, {"month": "2011-08", "new": null, "second": 10176.0}, {"month": "2011-09", "new": null, "second": 10030.0}, {"month": "2011-10", "new": null, "second": 10001.0}, {"month": "2011-11", "new": null, "second": 10001.0}, {"month": "2011-12", "new": null, "second": 10001.0}, {"month": "2012-01", "new": null, "second": 9950.0}, {"month": "2012-02", "new": null, "second": 9903.0}, {"month": "2012-03", "new": null, "second": 9906.0}, {"month": "2012-04", "new": null, "second": 9847.0}, {"month": "2012-05", "new": null, "second": 9846.0}, {"month": "2012-06", "new": null, "second": 9901.0}, {"month": "2012-07", "new": null, "second": 9970.0}, {"month": "2012-08", "new": null, "second": 9949.0}, {"month": "2012-09", "new": null, "second": 10007.0}, {"month": "2012-10", "new": null, "second": 10008.0}, {"month": "2012-11", "new": null, "second": 10025.0}, {"month": "2012-12", "new": null, "second": 10090.0}, {"month": "2013-01", "new": null, "second": 10154.0}, {"month": "2013-02", "new": null, "second": 10218.0}, {"month": "2013-03", "new": null, "second": 10374.0}, {"month": "2013-04", "new": null, "second": 10455.0}, {"month": "2013-05", "new": null, "second": 10503.0}, {"month": "2013-06", "new": null, "second": 10543.0}, {"month": "2013-07", "new": null, "second": 10586.0}, {"month": "2013-08", "new": null, "second": 10613.0}, {"month": "2013-09", "new": null, "second": 10665.0}, {"month": "2013-10", "new": null, "second": 10819.0}, {"month": "2013-11", "new": null, "second": 10913.0}, {"month": "2013-12", "new": null, "second": 10942.0}, {"month": "2014-01", "new": null, "second": 10940.0}, {"month": "2014-02", "new": null, "second": 10957.0}, {"month": "2014-03", "new": null, "second": 11009.0}, {"month": "2014-04", "new": null, "second": 11011.0}, {"month": "2014-05", "new": null, "second": 10975.0}, {"month": "2014-06", "new": null, "second": 10915.0}, {"month": "2014-07", "new": null, "second": 10991.0}, {"month": "2014-08", "new": null, "second": 10980.0}, {"month": "2014-09", "new": null, "second": 10964.0}, {"month": "2014-10", "new": null, "second": 10869.0}, {"month": "2014-11", "new": null, "second": 10886.0}, {"month": "2014-12", "new": null, "second": 10981.0}, {"month": "2015-01", "new": null, "second": 10936.0}, {"month": "2015-02", "new": null, "second": 10915.0}, {"month": "2015-03", "new": null, "second": 10965.0}, {"month": "2015-04", "new": null, "second": 10996.0}, {"month": "2015-05", "new": null, "second": 11034.0}, {"month": "2015-06", "new": null, "second": 11124.0}, {"month": "2015-07", "new": null, "second": 11210.0}, {"month": "2015-08", "new": null, "second": 11309.0}, {"month": "2015-09", "new": null, "second": 11458.0}, {"month": "2015-10", "new": null, "second": 11604.0}, {"month": "2015-11", "new": null, "second": 11904.0}, {"month": "2015-12", "new": null, "second": 12252.0}, {"month": "2016-01", "new": null, "second": 12252.0}, {"month": "2016-02", "new": null, "second": 12551.0}, {"month": "2016-03", "new": null, "second": 14708.0}, {"month": "2016-04", "new": null, "second": 15755.0}, {"month": "2016-05", "new": null, "second": 16078.0}, {"month": "2016-06", "new": null, "second": 16148.0}, {"month": "2016-07", "new": null, "second": 15543.0}, {"month": "2016-08", "new": null, "second": 15510.0}, {"month": "2016-09", "new": null, "second": 15576.0}, {"month": "2016-10", "new": null, "second": 16082.0}, {"month": "2016-11", "new": null, "second": 16153.0}, {"month": "2016-12", "new": null, "second": 16182.0}, {"month": "2017-01", "new": null, "second": 15951.0}, {"month": "2017-02", "new": null, "second": 16010.0}, {"month": "2017-03", "new": null, "second": 16108.0}, {"month": "2017-04", "new": null, "second": 15970.0}, {"month": "2017-05", "new": null, "second": 15806.0}, {"month": "2017-06", "new": null, "second": 15550.0}, {"month": "2017-07", "new": null, "second": 15415.0}, {"month": "2017-08", "new": null, "second": 15345.0}, {"month": "2017-09", "new": null, "second": 15426.0}, {"month": "2017-10", "new": null, "second": 15363.0}, {"month": "2017-11", "new": null, "second": 15349.0}, {"month": "2017-12", "new": null, "second": 15321.0}, {"month": "2018-01", "new": null, "second": 15869.0}, {"month": "2018-02", "new": null, "second": 16083.0}, {"month": "2018-03", "new": null, "second": 16529.0}, {"month": "2018-04", "new": null, "second": 16913.0}, {"month": "2018-05", "new": null, "second": 17103.0}, {"month": "2018-06", "new": null, "second": 17571.0}, {"month": "2018-07", "new": null, "second": 18312.0}, {"month": "2018-08", "new": null, "second": 18394.0}, {"month": "2018-09", "new": null, "second": 20260.0}, {"month": "2018-10", "new": null, "second": 19881.0}, {"month": "2018-11", "new": null, "second": 20354.0}, {"month": "2018-12", "new": null, "second": 20753.0}, {"month": "2019-01", "new": 18472.0, "second": 20930.0}, {"month": "2019-02", "new": 18541.0, "second": 21560.0}, {"month": "2019-03", "new": 18472.0, "second": 21123.0}, {"month": "2019-04", "new": 18710.0, "second": 21211.0}, {"month": "2019-05", "new": 18912.0, "second": 21111.0}, {"month": "2019-06", "new": 18682.0, "second": 21454.0}, {"month": "2019-07", "new": 18880.0, "second": 22563.0}, {"month": "2019-08", "new": 18721.0, "second": 22522.0}, {"month": "2019-09", "new": 18810.0, "second": 22661.0}, {"month": "2019-10", "new": 18880.0, "second": 22943.0}, {"month": "2019-11", "new": 18936.0, "second": 23703.0}, {"month": "2019-12", "new": 19053.0, "second": 22973.0}, {"month": "2020-01", "new": 19035.0, "second": 22945.0}, {"month": "2020-02", "new": 18736.0, "second": 23419.0}, {"month": "2020-03", "new": 19227.0, "second": 22913.0}, {"month": "2020-04", "new": 19045.0, "second": 23204.0}, {"month": "2020-05", "new": 19515.0, "second": 23565.0}, {"month": "2020-06", "new": 18405.0, "second": 22832.0}, {"month": "2020-07", "new": 18740.0, "second": 22640.0}, {"month": "2020-08", "new": 18932.0, "second": 22488.0}, {"month": "2020-09", "new": 19344.0, "second": 21417.0}, {"month": "2020-10", "new": 20275.0, "second": 22575.0}, {"month": "2020-11", "new": 19970.0, "second": 21313.0}, {"month": "2020-12", "new": 20364.0, "second": 21758.0}, {"month": "2021-01", "new": 20335.0, "second": 21853.0}, {"month": "2021-02", "new": 20047.0, "second": 22113.0}, {"month": "2021-03", "new": 20047.0, "second": 23187.0}, {"month": "2021-04", "new": 19756.0, "second": 21295.0}, {"month": "2021-05", "new": 20362.0, "second": 22166.0}, {"month": "2021-06", "new": 21296.0, "second": 22161.0}, {"month": "2021-07", "new": 20457.0, "second": 23017.0}, {"month": "2021-08", "new": 20938.0, "second": 22796.0}, {"month": "2021-09", "new": 21184.0, "second": 21828.0}, {"month": "2021-10", "new": 20658.0, "second": 21152.0}, {"month": "2021-11", "new": 21179.0, "second": 21943.0}, {"month": "2021-12", "new": 20553.0, "second": 21546.0}, {"month": "2022-01", "new": 21017.0, "second": 23124.0}, {"month": "2022-02", "new": 21565.0, "second": 21985.0}, {"month": "2022-03", "new": 21227.0, "second": 23107.0}, {"month": "2022-04", "new": 21272.0, "second": 22999.0}, {"month": "2022-05", "new": 21267.0, "second": 24233.0}, {"month": "2022-06", "new": 21172.0, "second": 24330.0}, {"month": "2022-07", "new": 21233.0, "second": 25165.0}, {"month": "2022-08", "new": 21119.0, "second": 25028.0}, {"month": "2022-09", "new": 21014.0, "second": 24655.0}, {"month": "2022-10", "new": 20790.0, "second": 24569.0}, {"month": "2022-11", "new": 20705.0, "second": 24643.0}, {"month": "2022-12", "new": 20808.0, "second": 23147.0}, {"month": "2023-01", "new": 20808.0, "second": 24196.0}, {"month": "2023-02", "new": 18367.0, "second": 24463.0}, {"month": "2023-03", "new": 18357.0, "second": 24790.0}, {"month": "2023-04", "new": 18383.0, "second": 22897.0}, {"month": "2023-05", "new": 18318.0, "second": 24122.0}, {"month": "2023-06", "new": 17705.0, "second": 23882.0}, {"month": "2023-07", "new": 17794.0, "second": 23876.0}, {"month": "2023-08", "new": 22744.0, "second": 23490.0}, {"month": "2023-09", "new": 24093.0, "second": 23661.0}, {"month": "2023-10", "new": 21555.0, "second": 23187.0}, {"month": "2023-11", "new": 23246.0, "second": 23033.0}, {"month": "2023-12", "new": 22141.0, "second": 22908.0}, {"month": "2024-01", "new": 22101.0, "second": 22628.0}, {"month": "2024-02", "new": 22272.0, "second": 22395.0}, {"month": "2024-03", "new": 24320.0, "second": 22410.0}, {"month": "2024-04", "new": 23721.0, "second": 21813.0}, {"month": "2024-05", "new": 23669.0, "second": 21311.0}, {"month": "2024-06", "new": 23521.0, "second": 21359.0}, {"month": "2024-07", "new": 24648.0, "second": 20724.0}, {"month": "2024-08", "new": 24756.0, "second": 20699.0}, {"month": "2024-09", "new": 24580.0, "second": 22750.0}, {"month": "2024-10", "new": 25037.0, "second": 19949.0}, {"month": "2024-11", "new": 24971.0, "second": 20052.0}, {"month": "2024-12", "new": 24055.0, "second": 19720.0}, {"month": "2025-01", "new": 21704.0, "second": 19857.0}, {"month": "2025-02", "new": 22194.0, "second": 20218.0}, {"month": "2025-03", "new": 22277.0, "second": 19884.0}, {"month": "2025-04", "new": 22000.0, "second": 19567.0}, {"month": "2025-05", "new": 22040.0, "second": 19332.0}, {"month": "2025-06", "new": 22033.0, "second": 18967.0}, {"month": "2025-07", "new": 22102.0, "second": 19066.0}, {"month": "2025-08", "new": 22630.0, "second": 18765.0}, {"month": "2025-09", "new": 22999.0, "second": 18279.0}, {"month": "2025-10", "new": 22605.0, "second": 15737.0}, {"month": "2025-11", "new": 22794.0, "second": 15319.0}, {"month": "2025-12", "new": 23586.0, "second": 17895.0}];
+      const chart = echarts.init(document.getElementById("chart"));
+      chart.setOption({
+        animationDuration: 300,
+        legend: { top: 4, data: ["新建商品住宅", "二手住宅"] },
+        tooltip: {
+          trigger: "axis",
+          valueFormatter: (v) => (v == null || v === "" ? "—" : Number(v).toLocaleString("zh-CN"))
+        },
+        grid: { left: 56, right: 26, top: 42, bottom: 56 },
+        xAxis: {
+          type: "category",
+          data: rows.map((d) => d.month),
+          axisLabel: { color: "#6e6e73", interval: 8 }
+        },
+        yAxis: {
+          type: "value",
+          name: "元/㎡",
+          axisLabel: { color: "#6e6e73" },
+          splitLine: { lineStyle: { color: "rgba(29,29,31,0.12)" } }
+        },
+        series: [
+          {
+            name: "二手住宅",
+            type: "line",
+            smooth: true,
+            showSymbol: false,
+            connectNulls: false,
+            data: rows.map((d) => d.second),
+            lineStyle: { width: 2, color: "#0066cc" }
+          },
+          {
+            name: "新建商品住宅",
+            type: "line",
+            smooth: true,
+            showSymbol: false,
+            connectNulls: false,
+            data: rows.map((d) => d.new),
+            lineStyle: { width: 2, color: "#34a853" }
+          }
+        ]
+      });
+      window.addEventListener("resize", () => chart.resize());
+    </script>
+  </body>
+</html>
