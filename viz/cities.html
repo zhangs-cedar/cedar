@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="东财70城房价定基指数城市总览，支持检索与拼音分组浏览。" />
+    <title>70城房价总览 · cedar</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body class="viz-page cities-page">
+    <a class="skip" href="#cities">跳到城市列表</a>
+    <div class="wrap--chart">
+      <header class="viz-top">
+        <a class="viz-back" href="../index.html" aria-label="返回 cedar 首页">‹ cedar</a>
+        <h1 class="viz-title">70城房价总览</h1>
+        <p class="viz-note">东财 70 城月度环比指数折算定基（2014-01=100）。</p>
+      </header>
+      <section class="cities-toolbar" aria-label="检索与分组导航">
+        <label for="city-search" class="visually-hidden">搜索城市</label>
+        <input id="city-search" class="city-search" type="search" placeholder="搜索城市，如：上海 / shanghai / beijing" autocomplete="off" />
+        <nav id="alpha-nav" class="alpha-nav" aria-label="按拼音首字母分组"></nav>
+      </section>
+      <p id="cities-empty" class="cities-empty" hidden>未找到匹配城市，请尝试中文名或拼音。</p>
+      <main id="cities" class="city-groups" aria-label="70城列表"></main>
+    </div>
+    <script>
+      const cities = [
+        ["anqing","安庆"],["baotou","包头"],["beihai","北海"],["beijing","北京"],["bengbu","蚌埠"],["changchun","长春"],["changde","常德"],["changsha","长沙"],["chengdu","成都"],["chongqing","重庆"],["dali","大理"],["dalian","大连"],["dandong","丹东"],["fuzhou","福州"],["ganzhou","赣州"],["guangzhou","广州"],["guilin","桂林"],["guiyang","贵阳"],["haikou","海口"],["hangzhou","杭州"],["harbin","哈尔滨"],["hefei","合肥"],["hohhot","呼和浩特"],["huizhou","惠州"],["jilin","吉林"],["jinan","济南"],["jinhua","金华"],["jining","济宁"],["jinzhou","锦州"],["jiujiang","九江"],["kunming","昆明"],["lanzhou","兰州"],["luoyang","洛阳"],["luzhou","泸州"],["mudanjiang","牡丹江"],["nanchang","南昌"],["nanchong","南充"],["nanjing","南京"],["nanning","南宁"],["ningbo","宁波"],["pingdingshan","平顶山"],["qingdao","青岛"],["qinhuangdao","秦皇岛"],["quanzhou","泉州"],["sanya","三亚"],["shanghai","上海"],["shaoguan","韶关"],["shenyang","沈阳"],["shenzhen","深圳"],["shijiazhuang","石家庄"],["taiyuan","太原"],["tangshan","唐山"],["tianjin","天津"],["urumqi","乌鲁木齐"],["wenzhou","温州"],["wuhan","武汉"],["wuxi","无锡"],["xiamen","厦门"],["xian","西安"],["xiangyang","襄阳"],["xining","西宁"],["xuzhou","徐州"],["yangzhou","扬州"],["yantai","烟台"],["yichang","宜昌"],["yinchuan","银川"],["yueyang","岳阳"],["zhanjiang","湛江"],["zhengzhou","郑州"],["zunyi","遵义"]
+      ];
+
+      const groups = new Map();
+      cities.forEach(([pinyin, name]) => {
+        const letter = pinyin.charAt(0).toUpperCase();
+        if (!groups.has(letter)) groups.set(letter, []);
+        groups.get(letter).push({ pinyin, name });
+      });
+
+      const nav = document.getElementById("alpha-nav");
+      const list = document.getElementById("cities");
+      const search = document.getElementById("city-search");
+      const empty = document.getElementById("cities-empty");
+
+      Array.from(groups.keys()).sort().forEach((letter) => {
+        const navLink = document.createElement("a");
+        navLink.className = "alpha-link";
+        navLink.href = `#group-${letter}`;
+        navLink.textContent = letter;
+        const count = document.createElement("span");
+        count.textContent = groups.get(letter).length;
+        navLink.appendChild(count);
+        nav.appendChild(navLink);
+
+        const section = document.createElement("section");
+        section.className = "city-group";
+        section.id = `group-${letter}`;
+        section.dataset.group = letter;
+        section.innerHTML = `<h2 class="city-group-title">${letter}</h2><div class="city-grid"></div>`;
+        const grid = section.querySelector(".city-grid");
+
+        groups.get(letter).forEach(({ pinyin, name }) => {
+          const link = document.createElement("a");
+          link.className = "city-card";
+          link.href = `city-${pinyin}-house-price.html`;
+          link.dataset.pinyin = pinyin;
+          link.dataset.city = name;
+          link.textContent = name;
+          grid.appendChild(link);
+        });
+        list.appendChild(section);
+      });
+
+      search.addEventListener("input", () => {
+        const keyword = search.value.trim().toLowerCase();
+        let visibleGroupCount = 0;
+        document.querySelectorAll(".city-group").forEach((groupEl) => {
+          let visibleCards = 0;
+          groupEl.querySelectorAll(".city-card").forEach((card) => {
+            const hit = !keyword || card.dataset.city.includes(keyword) || card.dataset.pinyin.includes(keyword);
+            card.hidden = !hit;
+            if (hit) visibleCards += 1;
+          });
+          groupEl.hidden = visibleCards === 0;
+          if (visibleCards > 0) visibleGroupCount += 1;
+        });
+        empty.hidden = visibleGroupCount !== 0;
+      });
+    </script>
+  </body>
+</html>
