@@ -12,6 +12,52 @@ VIZ_DIR = REPO_ROOT / "viz"
 EMBED_DIR = VIZ_DIR / "embed"
 CITY_JSON = VIZ_DIR / "cities.json"
 
+# 与苏州 embed 对齐：字体、留白、图例位置、tooltip、折线样式（定基页 y 轴语义不同）
+_EMBED_BASE_STYLE = """    <style>
+      html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
+      .wrap {{ padding: 18px 18px 6px; }}
+      .meta {{ margin: 0 0 12px; color: #6e6e73; font-size: 13px; }}
+      #chart {{ width: 100%; height: 640px; }}
+    </style>"""
+
+_TOOLTIP_INDEX = """valueFormatter: (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))"""
+
+_TOOLTIP_NUMBER = """valueFormatter: (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN"))"""
+
+_CITY_EMBED_TABLE_STYLE = """    <style>
+      .table-block {{ margin-top: 16px; padding-bottom: 12px; }}
+      .table-caption {{ margin: 0 0 8px; font-size: 13px; color: #6e6e73; }}
+      .table-scroll {{ max-height: min(360px, 42vh); overflow: auto; border: 1px solid rgba(29,29,31,0.12); border-radius: 10px; background: #fff; }}
+      .data-table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
+      .data-table thead th {{ position: sticky; top: 0; background: #f5f5f7; color: #6e6e73; font-weight: 600; z-index: 1; box-shadow: 0 1px 0 rgba(29,29,31,0.08); }}
+      .data-table th, .data-table td {{ padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(29,29,31,0.08); }}
+      .data-table tbody tr:hover {{ background: rgba(0,102,204,0.04); }}
+      .data-table td.num {{ text-align: right; font-variant-numeric: tabular-nums; }}
+      .data-table td:nth-child(2) {{ color: #34a853; }}
+      .data-table td:nth-child(3) {{ color: #0066cc; }}
+    </style>"""
+
+
+def _html_index_table_rows(
+    first: list[tuple[str, float]], second: list[tuple[str, float]]
+) -> str:
+    """与图表同源：按二手序列月份对齐，新房缺月显示 —。"""
+    fmap = {m: v for m, v in first}
+    lines: list[str] = []
+    for m, sv in second:
+        fv = fmap.get(m)
+        cell_new = "—" if fv is None else f"{fv:.2f}"
+        cell_sec = f"{sv:.2f}"
+        lines.append(
+            "          <tr>"
+            f"<td>{m}</td>"
+            f'<td class="num">{cell_new}</td>'
+            f'<td class="num">{cell_sec}</td>'
+            "</tr>"
+        )
+    return "\n".join(lines)
+
+
 CITY_SLUG = {
     "三亚": "sanya",
     "上海": "shanghai",
@@ -123,6 +169,7 @@ def build_index(rows: list[dict], city: str, key: str) -> list[tuple[str, float]
 def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[str, float]]) -> str:
     first_json = json.dumps([{"month": m, "value": round(v, 4)} for m, v in first], ensure_ascii=False)
     second_json = json.dumps([{"month": m, "value": round(v, 4)} for m, v in second], ensure_ascii=False)
+    table_body = _html_index_table_rows(first, second)
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -130,17 +177,30 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{city}房价定基指数</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    <style>
-      html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
-      .wrap {{ padding: 18px 18px 6px; }}
-      .meta {{ margin: 0 0 12px; color: #6e6e73; font-size: 13px; }}
-      #chart {{ width: 100%; height: 640px; }}
-    </style>
+{_EMBED_BASE_STYLE}
+{_CITY_EMBED_TABLE_STYLE}
   </head>
   <body>
     <div class="wrap">
       <p class="meta">{city} · 定基指数（2014-01=100） · 数据源：东财70城月度</p>
       <div id="chart"></div>
+      <section class="table-block" aria-label="月度定基指数数据表">
+        <p class="table-caption">月度数据表（定基指数 2014-01=100，与上图一致）</p>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">月份</th>
+                <th scope="col">新建商品住宅</th>
+                <th scope="col">二手住宅</th>
+              </tr>
+            </thead>
+            <tbody>
+{table_body}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
     <script>
       const firstData = {first_json};
@@ -151,7 +211,7 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
         legend: {{ top: 4, data: ["新建商品住宅", "二手住宅"] }},
         tooltip: {{
           trigger: "axis",
-          valueFormatter: (v) => Number(v).toFixed(2)
+          {_TOOLTIP_INDEX}
         }},
         grid: {{ left: 56, right: 26, top: 42, bottom: 56 }},
         xAxis: {{
@@ -171,6 +231,7 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
             type: "line",
             smooth: true,
             showSymbol: false,
+            connectNulls: false,
             data: secondData.map((d) => d.value),
             lineStyle: {{ width: 2, color: "#0066cc" }}
           }},
@@ -179,6 +240,7 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
             type: "line",
             smooth: true,
             showSymbol: false,
+            connectNulls: false,
             data: firstData.map((d) => d.value),
             lineStyle: {{ width: 2, color: "#34a853" }}
           }}
@@ -262,12 +324,13 @@ def render_gold_embed(months: list[str], amounts: list[float], deltas: list[floa
         animationDuration: 300,
         tooltip: {{
           trigger: "axis",
-          axisPointer: {{ type: "cross" }}
+          axisPointer: {{ type: "cross" }},
+          {_TOOLTIP_NUMBER}
         }},
         axisPointer: {{ link: [{{ xAxisIndex: "all" }}] }},
         grid: [
-          {{ left: 56, right: 26, top: 48, height: 260 }},
-          {{ left: 56, right: 26, top: 380, height: 260 }}
+          {{ left: 56, right: 26, top: 42, height: 260 }},
+          {{ left: 56, right: 26, top: 374, height: 260 }}
         ],
         xAxis: [
           {{ type: "category", data: months, axisLabel: {{ color: "#6e6e73", interval: 4 }}, gridIndex: 0 }},
@@ -341,7 +404,7 @@ def render_gold_shell() -> str:
       <header class="viz-top">
         <a class="viz-back" href="../index.html" aria-label="返回 cedar 首页">‹ cedar</a>
         <h1 class="viz-title">黄金储备变化</h1>
-        <p class="viz-note">月度库存（万盎司）与相邻月差值；与房价图同为 ECharts 自包含嵌入。</p>
+        <p class="viz-note">月度库存（万盎司）与相邻月差值；双图布局，样式与苏州、70 城房价 embed 一致。</p>
       </header>
       <iframe
         id="chart"
@@ -387,12 +450,7 @@ def render_suzhou_yuan_embed(
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>苏州房价成交均价</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    <style>
-      html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
-      .wrap {{ padding: 18px 18px 6px; }}
-      .meta {{ margin: 0 0 12px; color: #6e6e73; font-size: 13px; }}
-      #chart {{ width: 100%; height: 640px; }}
-    </style>
+{_EMBED_BASE_STYLE}
   </head>
   <body>
     <div class="wrap">

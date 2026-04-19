@@ -6,16 +6,191 @@
     <title>大连房价定基指数</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <style>
-      html, body { margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }
-      .wrap { padding: 18px 18px 6px; }
-      .meta { margin: 0 0 12px; color: #6e6e73; font-size: 13px; }
-      #chart { width: 100%; height: 640px; }
+      html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
+      .wrap {{ padding: 18px 18px 6px; }}
+      .meta {{ margin: 0 0 12px; color: #6e6e73; font-size: 13px; }}
+      #chart {{ width: 100%; height: 640px; }}
+    </style>
+    <style>
+      .table-block {{ margin-top: 16px; padding-bottom: 12px; }}
+      .table-caption {{ margin: 0 0 8px; font-size: 13px; color: #6e6e73; }}
+      .table-scroll {{ max-height: min(360px, 42vh); overflow: auto; border: 1px solid rgba(29,29,31,0.12); border-radius: 10px; background: #fff; }}
+      .data-table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
+      .data-table thead th {{ position: sticky; top: 0; background: #f5f5f7; color: #6e6e73; font-weight: 600; z-index: 1; box-shadow: 0 1px 0 rgba(29,29,31,0.08); }}
+      .data-table th, .data-table td {{ padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(29,29,31,0.08); }}
+      .data-table tbody tr:hover {{ background: rgba(0,102,204,0.04); }}
+      .data-table td.num {{ text-align: right; font-variant-numeric: tabular-nums; }}
+      .data-table td:nth-child(2) {{ color: #34a853; }}
+      .data-table td:nth-child(3) {{ color: #0066cc; }}
     </style>
   </head>
   <body>
     <div class="wrap">
       <p class="meta">大连 · 定基指数（2014-01=100） · 数据源：东财70城月度</p>
       <div id="chart"></div>
+      <section class="table-block" aria-label="月度定基指数数据表">
+        <p class="table-caption">月度数据表（定基指数 2014-01=100，与上图一致）</p>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">月份</th>
+                <th scope="col">新建商品住宅</th>
+                <th scope="col">二手住宅</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr><td>2014-01</td><td class="num">100.00</td><td class="num">100.00</td></tr>
+          <tr><td>2014-02</td><td class="num">100.30</td><td class="num">100.30</td></tr>
+          <tr><td>2014-03</td><td class="num">100.70</td><td class="num">100.50</td></tr>
+          <tr><td>2014-04</td><td class="num">100.80</td><td class="num">100.50</td></tr>
+          <tr><td>2014-05</td><td class="num">100.80</td><td class="num">100.20</td></tr>
+          <tr><td>2014-06</td><td class="num">100.80</td><td class="num">99.80</td></tr>
+          <tr><td>2014-07</td><td class="num">99.49</td><td class="num">98.50</td></tr>
+          <tr><td>2014-08</td><td class="num">97.90</td><td class="num">97.71</td></tr>
+          <tr><td>2014-09</td><td class="num">96.92</td><td class="num">96.83</td></tr>
+          <tr><td>2014-10</td><td class="num">95.66</td><td class="num">95.87</td></tr>
+          <tr><td>2014-11</td><td class="num">94.32</td><td class="num">95.39</td></tr>
+          <tr><td>2014-12</td><td class="num">93.38</td><td class="num">95.10</td></tr>
+          <tr><td>2015-01</td><td class="num">92.82</td><td class="num">94.91</td></tr>
+          <tr><td>2015-02</td><td class="num">92.45</td><td class="num">94.62</td></tr>
+          <tr><td>2015-03</td><td class="num">92.17</td><td class="num">94.62</td></tr>
+          <tr><td>2015-04</td><td class="num">92.26</td><td class="num">94.91</td></tr>
+          <tr><td>2015-05</td><td class="num">92.26</td><td class="num">95.19</td></tr>
+          <tr><td>2015-06</td><td class="num">92.63</td><td class="num">95.76</td></tr>
+          <tr><td>2015-07</td><td class="num">92.82</td><td class="num">95.67</td></tr>
+          <tr><td>2015-08</td><td class="num">92.82</td><td class="num">95.57</td></tr>
+          <tr><td>2015-09</td><td class="num">92.54</td><td class="num">95.38</td></tr>
+          <tr><td>2015-10</td><td class="num">91.89</td><td class="num">95.29</td></tr>
+          <tr><td>2015-11</td><td class="num">91.80</td><td class="num">95.10</td></tr>
+          <tr><td>2015-12</td><td class="num">91.71</td><td class="num">94.62</td></tr>
+          <tr><td>2016-01</td><td class="num">91.71</td><td class="num">94.81</td></tr>
+          <tr><td>2016-02</td><td class="num">91.43</td><td class="num">94.62</td></tr>
+          <tr><td>2016-03</td><td class="num">91.61</td><td class="num">94.81</td></tr>
+          <tr><td>2016-04</td><td class="num">92.35</td><td class="num">95.28</td></tr>
+          <tr><td>2016-05</td><td class="num">92.81</td><td class="num">95.38</td></tr>
+          <tr><td>2016-06</td><td class="num">93.09</td><td class="num">95.86</td></tr>
+          <tr><td>2016-07</td><td class="num">92.53</td><td class="num">95.57</td></tr>
+          <tr><td>2016-08</td><td class="num">92.81</td><td class="num">95.66</td></tr>
+          <tr><td>2016-09</td><td class="num">92.90</td><td class="num">95.76</td></tr>
+          <tr><td>2016-10</td><td class="num">93.46</td><td class="num">95.95</td></tr>
+          <tr><td>2016-11</td><td class="num">93.92</td><td class="num">96.05</td></tr>
+          <tr><td>2016-12</td><td class="num">94.02</td><td class="num">96.05</td></tr>
+          <tr><td>2017-01</td><td class="num">94.02</td><td class="num">96.33</td></tr>
+          <tr><td>2017-02</td><td class="num">94.49</td><td class="num">96.53</td></tr>
+          <tr><td>2017-03</td><td class="num">95.05</td><td class="num">96.91</td></tr>
+          <tr><td>2017-04</td><td class="num">96.10</td><td class="num">97.59</td></tr>
+          <tr><td>2017-05</td><td class="num">97.06</td><td class="num">98.47</td></tr>
+          <tr><td>2017-06</td><td class="num">97.55</td><td class="num">99.06</td></tr>
+          <tr><td>2017-07</td><td class="num">98.42</td><td class="num">99.36</td></tr>
+          <tr><td>2017-08</td><td class="num">98.92</td><td class="num">99.76</td></tr>
+          <tr><td>2017-09</td><td class="num">99.51</td><td class="num">99.96</td></tr>
+          <tr><td>2017-10</td><td class="num">100.21</td><td class="num">100.46</td></tr>
+          <tr><td>2017-11</td><td class="num">101.21</td><td class="num">101.06</td></tr>
+          <tr><td>2017-12</td><td class="num">102.02</td><td class="num">101.56</td></tr>
+          <tr><td>2018-01</td><td class="num">103.65</td><td class="num">102.27</td></tr>
+          <tr><td>2018-02</td><td class="num">104.69</td><td class="num">102.89</td></tr>
+          <tr><td>2018-03</td><td class="num">105.42</td><td class="num">103.30</td></tr>
+          <tr><td>2018-04</td><td class="num">106.58</td><td class="num">103.82</td></tr>
+          <tr><td>2018-05</td><td class="num">108.39</td><td class="num">104.65</td></tr>
+          <tr><td>2018-06</td><td class="num">110.34</td><td class="num">105.69</td></tr>
+          <tr><td>2018-07</td><td class="num">111.45</td><td class="num">106.64</td></tr>
+          <tr><td>2018-08</td><td class="num">112.56</td><td class="num">107.92</td></tr>
+          <tr><td>2018-09</td><td class="num">113.24</td><td class="num">108.90</td></tr>
+          <tr><td>2018-10</td><td class="num">114.03</td><td class="num">109.00</td></tr>
+          <tr><td>2018-11</td><td class="num">115.62</td><td class="num">110.09</td></tr>
+          <tr><td>2018-12</td><td class="num">116.66</td><td class="num">110.31</td></tr>
+          <tr><td>2019-01</td><td class="num">116.55</td><td class="num">110.31</td></tr>
+          <tr><td>2019-02</td><td class="num">118.65</td><td class="num">110.98</td></tr>
+          <tr><td>2019-03</td><td class="num">119.83</td><td class="num">112.20</td></tr>
+          <tr><td>2019-04</td><td class="num">120.67</td><td class="num">113.09</td></tr>
+          <tr><td>2019-05</td><td class="num">122.36</td><td class="num">114.23</td></tr>
+          <tr><td>2019-06</td><td class="num">123.83</td><td class="num">114.80</td></tr>
+          <tr><td>2019-07</td><td class="num">125.07</td><td class="num">115.03</td></tr>
+          <tr><td>2019-08</td><td class="num">125.82</td><td class="num">115.60</td></tr>
+          <tr><td>2019-09</td><td class="num">125.44</td><td class="num">115.72</td></tr>
+          <tr><td>2019-10</td><td class="num">125.82</td><td class="num">115.72</td></tr>
+          <tr><td>2019-11</td><td class="num">126.07</td><td class="num">115.72</td></tr>
+          <tr><td>2019-12</td><td class="num">126.45</td><td class="num">115.83</td></tr>
+          <tr><td>2020-01</td><td class="num">126.57</td><td class="num">115.83</td></tr>
+          <tr><td>2020-02</td><td class="num">127.08</td><td class="num">115.83</td></tr>
+          <tr><td>2020-03</td><td class="num">127.33</td><td class="num">116.41</td></tr>
+          <tr><td>2020-04</td><td class="num">127.97</td><td class="num">117.58</td></tr>
+          <tr><td>2020-05</td><td class="num">128.99</td><td class="num">118.63</td></tr>
+          <tr><td>2020-06</td><td class="num">130.15</td><td class="num">119.46</td></tr>
+          <tr><td>2020-07</td><td class="num">130.81</td><td class="num">120.18</td></tr>
+          <tr><td>2020-08</td><td class="num">131.20</td><td class="num">121.02</td></tr>
+          <tr><td>2020-09</td><td class="num">131.85</td><td class="num">121.51</td></tr>
+          <tr><td>2020-10</td><td class="num">132.25</td><td class="num">121.87</td></tr>
+          <tr><td>2020-11</td><td class="num">132.25</td><td class="num">122.11</td></tr>
+          <tr><td>2020-12</td><td class="num">132.51</td><td class="num">122.85</td></tr>
+          <tr><td>2021-01</td><td class="num">132.65</td><td class="num">123.22</td></tr>
+          <tr><td>2021-02</td><td class="num">132.91</td><td class="num">123.83</td></tr>
+          <tr><td>2021-03</td><td class="num">133.98</td><td class="num">124.58</td></tr>
+          <tr><td>2021-04</td><td class="num">134.91</td><td class="num">125.45</td></tr>
+          <tr><td>2021-05</td><td class="num">136.53</td><td class="num">126.20</td></tr>
+          <tr><td>2021-06</td><td class="num">137.90</td><td class="num">126.83</td></tr>
+          <tr><td>2021-07</td><td class="num">138.72</td><td class="num">127.34</td></tr>
+          <tr><td>2021-08</td><td class="num">139.56</td><td class="num">127.85</td></tr>
+          <tr><td>2021-09</td><td class="num">139.70</td><td class="num">128.10</td></tr>
+          <tr><td>2021-10</td><td class="num">139.42</td><td class="num">128.23</td></tr>
+          <tr><td>2021-11</td><td class="num">139.14</td><td class="num">128.10</td></tr>
+          <tr><td>2021-12</td><td class="num">138.58</td><td class="num">127.85</td></tr>
+          <tr><td>2022-01</td><td class="num">138.30</td><td class="num">127.21</td></tr>
+          <tr><td>2022-02</td><td class="num">137.75</td><td class="num">126.95</td></tr>
+          <tr><td>2022-03</td><td class="num">136.79</td><td class="num">126.32</td></tr>
+          <tr><td>2022-04</td><td class="num">136.65</td><td class="num">125.06</td></tr>
+          <tr><td>2022-05</td><td class="num">136.38</td><td class="num">124.43</td></tr>
+          <tr><td>2022-06</td><td class="num">135.97</td><td class="num">124.68</td></tr>
+          <tr><td>2022-07</td><td class="num">135.83</td><td class="num">124.43</td></tr>
+          <tr><td>2022-08</td><td class="num">135.56</td><td class="num">124.06</td></tr>
+          <tr><td>2022-09</td><td class="num">134.88</td><td class="num">123.19</td></tr>
+          <tr><td>2022-10</td><td class="num">133.26</td><td class="num">122.33</td></tr>
+          <tr><td>2022-11</td><td class="num">132.60</td><td class="num">121.59</td></tr>
+          <tr><td>2022-12</td><td class="num">132.07</td><td class="num">121.23</td></tr>
+          <tr><td>2023-01</td><td class="num">131.94</td><td class="num">120.62</td></tr>
+          <tr><td>2023-02</td><td class="num">131.54</td><td class="num">120.86</td></tr>
+          <tr><td>2023-03</td><td class="num">131.01</td><td class="num">121.22</td></tr>
+          <tr><td>2023-04</td><td class="num">130.49</td><td class="num">120.62</td></tr>
+          <tr><td>2023-05</td><td class="num">130.10</td><td class="num">120.02</td></tr>
+          <tr><td>2023-06</td><td class="num">130.36</td><td class="num">119.30</td></tr>
+          <tr><td>2023-07</td><td class="num">129.45</td><td class="num">118.34</td></tr>
+          <tr><td>2023-08</td><td class="num">129.83</td><td class="num">117.63</td></tr>
+          <tr><td>2023-09</td><td class="num">129.05</td><td class="num">117.04</td></tr>
+          <tr><td>2023-10</td><td class="num">128.67</td><td class="num">116.57</td></tr>
+          <tr><td>2023-11</td><td class="num">127.51</td><td class="num">115.87</td></tr>
+          <tr><td>2023-12</td><td class="num">126.74</td><td class="num">115.30</td></tr>
+          <tr><td>2024-01</td><td class="num">126.87</td><td class="num">114.49</td></tr>
+          <tr><td>2024-02</td><td class="num">126.24</td><td class="num">113.92</td></tr>
+          <tr><td>2024-03</td><td class="num">125.73</td><td class="num">113.00</td></tr>
+          <tr><td>2024-04</td><td class="num">124.98</td><td class="num">111.20</td></tr>
+          <tr><td>2024-05</td><td class="num">124.35</td><td class="num">110.20</td></tr>
+          <tr><td>2024-06</td><td class="num">122.98</td><td class="num">109.20</td></tr>
+          <tr><td>2024-07</td><td class="num">122.37</td><td class="num">108.00</td></tr>
+          <tr><td>2024-08</td><td class="num">122.00</td><td class="num">107.25</td></tr>
+          <tr><td>2024-09</td><td class="num">121.15</td><td class="num">105.96</td></tr>
+          <tr><td>2024-10</td><td class="num">120.42</td><td class="num">104.90</td></tr>
+          <tr><td>2024-11</td><td class="num">119.46</td><td class="num">104.48</td></tr>
+          <tr><td>2024-12</td><td class="num">119.34</td><td class="num">104.17</td></tr>
+          <tr><td>2025-01</td><td class="num">119.58</td><td class="num">103.96</td></tr>
+          <tr><td>2025-02</td><td class="num">119.94</td><td class="num">103.23</td></tr>
+          <tr><td>2025-03</td><td class="num">119.34</td><td class="num">102.82</td></tr>
+          <tr><td>2025-04</td><td class="num">119.93</td><td class="num">102.51</td></tr>
+          <tr><td>2025-05</td><td class="num">119.45</td><td class="num">101.89</td></tr>
+          <tr><td>2025-06</td><td class="num">119.21</td><td class="num">101.39</td></tr>
+          <tr><td>2025-07</td><td class="num">119.21</td><td class="num">100.98</td></tr>
+          <tr><td>2025-08</td><td class="num">118.86</td><td class="num">100.37</td></tr>
+          <tr><td>2025-09</td><td class="num">118.38</td><td class="num">99.67</td></tr>
+          <tr><td>2025-10</td><td class="num">118.26</td><td class="num">99.17</td></tr>
+          <tr><td>2025-11</td><td class="num">118.26</td><td class="num">98.97</td></tr>
+          <tr><td>2025-12</td><td class="num">118.03</td><td class="num">98.28</td></tr>
+          <tr><td>2026-01</td><td class="num">118.26</td><td class="num">97.89</td></tr>
+          <tr><td>2026-02</td><td class="num">118.38</td><td class="num">97.69</td></tr>
+          <tr><td>2026-03</td><td class="num">118.62</td><td class="num">97.40</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
     <script>
       const firstData = [{"month": "2014-01", "value": 100.0}, {"month": "2014-02", "value": 100.3}, {"month": "2014-03", "value": 100.7012}, {"month": "2014-04", "value": 100.8019}, {"month": "2014-05", "value": 100.8019}, {"month": "2014-06", "value": 100.8019}, {"month": "2014-07", "value": 99.4915}, {"month": "2014-08", "value": 97.8996}, {"month": "2014-09", "value": 96.9206}, {"month": "2014-10", "value": 95.6606}, {"month": "2014-11", "value": 94.3214}, {"month": "2014-12", "value": 93.3782}, {"month": "2015-01", "value": 92.8179}, {"month": "2015-02", "value": 92.4466}, {"month": "2015-03", "value": 92.1693}, {"month": "2015-04", "value": 92.2615}, {"month": "2015-05", "value": 92.2615}, {"month": "2015-06", "value": 92.6305}, {"month": "2015-07", "value": 92.8158}, {"month": "2015-08", "value": 92.8158}, {"month": "2015-09", "value": 92.5373}, {"month": "2015-10", "value": 91.8896}, {"month": "2015-11", "value": 91.7977}, {"month": "2015-12", "value": 91.7059}, {"month": "2016-01", "value": 91.7059}, {"month": "2016-02", "value": 91.4308}, {"month": "2016-03", "value": 91.6136}, {"month": "2016-04", "value": 92.3465}, {"month": "2016-05", "value": 92.8083}, {"month": "2016-06", "value": 93.0867}, {"month": "2016-07", "value": 92.5282}, {"month": "2016-08", "value": 92.8058}, {"month": "2016-09", "value": 92.8986}, {"month": "2016-10", "value": 93.456}, {"month": "2016-11", "value": 93.9232}, {"month": "2016-12", "value": 94.0172}, {"month": "2017-01", "value": 94.0172}, {"month": "2017-02", "value": 94.4872}, {"month": "2017-03", "value": 95.0542}, {"month": "2017-04", "value": 96.0998}, {"month": "2017-05", "value": 97.0608}, {"month": "2017-06", "value": 97.5461}, {"month": "2017-07", "value": 98.424}, {"month": "2017-08", "value": 98.9161}, {"month": "2017-09", "value": 99.5096}, {"month": "2017-10", "value": 100.2062}, {"month": "2017-11", "value": 101.2082}, {"month": "2017-12", "value": 102.0179}, {"month": "2018-01", "value": 103.6502}, {"month": "2018-02", "value": 104.6867}, {"month": "2018-03", "value": 105.4195}, {"month": "2018-04", "value": 106.5791}, {"month": "2018-05", "value": 108.3909}, {"month": "2018-06", "value": 110.342}, {"month": "2018-07", "value": 111.4454}, {"month": "2018-08", "value": 112.5599}, {"month": "2018-09", "value": 113.2352}, {"month": "2018-10", "value": 114.0279}, {"month": "2018-11", "value": 115.6243}, {"month": "2018-12", "value": 116.6649}, {"month": "2019-01", "value": 116.5482}, {"month": "2019-02", "value": 118.6461}, {"month": "2019-03", "value": 119.8325}, {"month": "2019-04", "value": 120.6714}, {"month": "2019-05", "value": 122.3608}, {"month": "2019-06", "value": 123.8291}, {"month": "2019-07", "value": 125.0674}, {"month": "2019-08", "value": 125.8178}, {"month": "2019-09", "value": 125.4403}, {"month": "2019-10", "value": 125.8167}, {"month": "2019-11", "value": 126.0683}, {"month": "2019-12", "value": 126.4465}, {"month": "2020-01", "value": 126.5729}, {"month": "2020-02", "value": 127.0792}, {"month": "2020-03", "value": 127.3334}, {"month": "2020-04", "value": 127.9701}, {"month": "2020-05", "value": 128.9938}, {"month": "2020-06", "value": 130.1548}, {"month": "2020-07", "value": 130.8055}, {"month": "2020-08", "value": 131.198}, {"month": "2020-09", "value": 131.8539}, {"month": "2020-10", "value": 132.2495}, {"month": "2020-11", "value": 132.2495}, {"month": "2020-12", "value": 132.514}, {"month": "2021-01", "value": 132.6465}, {"month": "2021-02", "value": 132.9118}, {"month": "2021-03", "value": 133.9751}, {"month": "2021-04", "value": 134.9129}, {"month": "2021-05", "value": 136.5319}, {"month": "2021-06", "value": 137.8972}, {"month": "2021-07", "value": 138.7246}, {"month": "2021-08", "value": 139.5569}, {"month": "2021-09", "value": 139.6965}, {"month": "2021-10", "value": 139.4171}, {"month": "2021-11", "value": 139.1383}, {"month": "2021-12", "value": 138.5817}, {"month": "2022-01", "value": 138.3045}, {"month": "2022-02", "value": 137.7513}, {"month": "2022-03", "value": 136.7871}, {"month": "2022-04", "value": 136.6503}, {"month": "2022-05", "value": 136.377}, {"month": "2022-06", "value": 135.9679}, {"month": "2022-07", "value": 135.8319}, {"month": "2022-08", "value": 135.5602}, {"month": "2022-09", "value": 134.8824}, {"month": "2022-10", "value": 133.2638}, {"month": "2022-11", "value": 132.5975}, {"month": "2022-12", "value": 132.0671}, {"month": "2023-01", "value": 131.9351}, {"month": "2023-02", "value": 131.5392}, {"month": "2023-03", "value": 131.0131}, {"month": "2023-04", "value": 130.489}, {"month": "2023-05", "value": 130.0976}, {"month": "2023-06", "value": 130.3578}, {"month": "2023-07", "value": 129.4453}, {"month": "2023-08", "value": 129.8336}, {"month": "2023-09", "value": 129.0546}, {"month": "2023-10", "value": 128.6674}, {"month": "2023-11", "value": 127.5094}, {"month": "2023-12", "value": 126.7444}, {"month": "2024-01", "value": 126.8711}, {"month": "2024-02", "value": 126.2368}, {"month": "2024-03", "value": 125.7318}, {"month": "2024-04", "value": 124.9774}, {"month": "2024-05", "value": 124.3525}, {"month": "2024-06", "value": 122.9847}, {"month": "2024-07", "value": 122.3697}, {"month": "2024-08", "value": 122.0026}, {"month": "2024-09", "value": 121.1486}, {"month": "2024-10", "value": 120.4217}, {"month": "2024-11", "value": 119.4583}, {"month": "2024-12", "value": 119.3389}, {"month": "2025-01", "value": 119.5776}, {"month": "2025-02", "value": 119.9363}, {"month": "2025-03", "value": 119.3366}, {"month": "2025-04", "value": 119.9333}, {"month": "2025-05", "value": 119.4536}, {"month": "2025-06", "value": 119.2147}, {"month": "2025-07", "value": 119.2147}, {"month": "2025-08", "value": 118.857}, {"month": "2025-09", "value": 118.3816}, {"month": "2025-10", "value": 118.2632}, {"month": "2025-11", "value": 118.2632}, {"month": "2025-12", "value": 118.0267}, {"month": "2026-01", "value": 118.2627}, {"month": "2026-02", "value": 118.381}, {"month": "2026-03", "value": 118.6177}];
@@ -26,7 +201,7 @@
         legend: { top: 4, data: ["新建商品住宅", "二手住宅"] },
         tooltip: {
           trigger: "axis",
-          valueFormatter: (v) => Number(v).toFixed(2)
+          valueFormatter: (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
         },
         grid: { left: 56, right: 26, top: 42, bottom: 56 },
         xAxis: {
@@ -46,6 +221,7 @@
             type: "line",
             smooth: true,
             showSymbol: false,
+            connectNulls: false,
             data: secondData.map((d) => d.value),
             lineStyle: { width: 2, color: "#0066cc" }
           },
@@ -54,6 +230,7 @@
             type: "line",
             smooth: true,
             showSymbol: false,
+            connectNulls: false,
             data: firstData.map((d) => d.value),
             lineStyle: { width: 2, color: "#34a853" }
           }
