@@ -201,7 +201,24 @@
         legend: { top: 4, data: ["新建商品住宅", "二手住宅"] },
         tooltip: {
           trigger: "axis",
-          valueFormatter: (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
+          formatter: function (params) {
+          const fmt = (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+          const lineFor = (p) => {
+            const arr = p.seriesName === "新建商品住宅" ? firstData : secondData;
+            const i = p.dataIndex;
+            const cur = arr[i].value;
+            let extra = "";
+            if (i > 0) {
+              const prev = arr[i - 1].value;
+              if (prev != null && prev !== 0 && cur != null && !Number.isNaN(Number(prev)) && !Number.isNaN(Number(cur))) {
+                const pct = (cur / prev - 1) * 100;
+                extra = " · 较上月 " + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
+              }
+            }
+            return p.marker + p.seriesName + ": " + fmt(cur) + extra;
+          };
+          return params[0].axisValue + "<br/>" + params.map(lineFor).join("<br/>");
+        }
         },
         grid: { left: 56, right: 26, top: 42, bottom: 56 },
         xAxis: {

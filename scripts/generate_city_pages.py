@@ -14,27 +14,25 @@ CITY_JSON = VIZ_DIR / "cities.json"
 
 # 与苏州 embed 对齐：字体、留白、图例位置、tooltip、折线样式（定基页 y 轴语义不同）
 _EMBED_BASE_STYLE = """    <style>
-      html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
-      .wrap {{ padding: 18px 18px 6px; }}
-      .meta {{ margin: 0 0 12px; color: #6e6e73; font-size: 13px; }}
-      #chart {{ width: 100%; height: 640px; }}
+      html, body { margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }
+      .wrap { padding: 18px 18px 6px; }
+      .meta { margin: 0 0 12px; color: #6e6e73; font-size: 13px; }
+      #chart { width: 100%; height: 640px; }
     </style>"""
-
-_TOOLTIP_INDEX = """valueFormatter: (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))"""
 
 _TOOLTIP_NUMBER = """valueFormatter: (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN"))"""
 
 _CITY_EMBED_TABLE_STYLE = """    <style>
-      .table-block {{ margin-top: 16px; padding-bottom: 12px; }}
-      .table-caption {{ margin: 0 0 8px; font-size: 13px; color: #6e6e73; }}
-      .table-scroll {{ max-height: min(360px, 42vh); overflow: auto; border: 1px solid rgba(29,29,31,0.12); border-radius: 10px; background: #fff; }}
-      .data-table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
-      .data-table thead th {{ position: sticky; top: 0; background: #f5f5f7; color: #6e6e73; font-weight: 600; z-index: 1; box-shadow: 0 1px 0 rgba(29,29,31,0.08); }}
-      .data-table th, .data-table td {{ padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(29,29,31,0.08); }}
-      .data-table tbody tr:hover {{ background: rgba(0,102,204,0.04); }}
-      .data-table td.num {{ text-align: right; font-variant-numeric: tabular-nums; }}
-      .data-table td:nth-child(2) {{ color: #34a853; }}
-      .data-table td:nth-child(3) {{ color: #0066cc; }}
+      .table-block { margin-top: 16px; padding-bottom: 12px; }
+      .table-caption { margin: 0 0 8px; font-size: 13px; color: #6e6e73; }
+      .table-scroll { max-height: min(360px, 42vh); overflow: auto; border: 1px solid rgba(29,29,31,0.12); border-radius: 10px; background: #fff; }
+      .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .data-table thead th { position: sticky; top: 0; background: #f5f5f7; color: #6e6e73; font-weight: 600; z-index: 1; box-shadow: 0 1px 0 rgba(29,29,31,0.08); }
+      .data-table th, .data-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(29,29,31,0.08); }
+      .data-table tbody tr:hover { background: rgba(0,102,204,0.04); }
+      .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+      .data-table td:nth-child(2) { color: #34a853; }
+      .data-table td:nth-child(3) { color: #0066cc; }
     </style>"""
 
 
@@ -56,6 +54,52 @@ def _html_index_table_rows(
             "</tr>"
         )
     return "\n".join(lines)
+
+
+def _html_yuan_table_rows(payload: list[dict]) -> str:
+    """苏州成交均价表：与图同源，缺数显示 —。"""
+    lines: list[str] = []
+    for r in payload:
+        m = r["month"]
+        nv, sv = r.get("new"), r.get("second")
+
+        def cell_yuan(v: float | None) -> str:
+            if v is None:
+                return "—"
+            x = float(v)
+            if abs(x - round(x)) < 1e-6:
+                return f"{int(round(x)):,}"
+            return f"{x:,.2f}"
+
+        lines.append(
+            "          <tr>"
+            f"<td>{m}</td>"
+            f'<td class="num">{cell_yuan(nv)}</td>'
+            f'<td class="num">{cell_yuan(sv)}</td>'
+            "</tr>"
+        )
+    return "\n".join(lines)
+
+
+# 定基指数轴：悬停展示数值 + 相对上月涨跌幅（由链式指数相邻两点推算）
+_TOOLTIP_AXIS_MOM_INDEX = """formatter: function (params) {
+          const fmt = (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+          const lineFor = (p) => {
+            const arr = p.seriesName === "新建商品住宅" ? firstData : secondData;
+            const i = p.dataIndex;
+            const cur = arr[i].value;
+            let extra = "";
+            if (i > 0) {
+              const prev = arr[i - 1].value;
+              if (prev != null && prev !== 0 && cur != null && !Number.isNaN(Number(prev)) && !Number.isNaN(Number(cur))) {
+                const pct = (cur / prev - 1) * 100;
+                extra = " · 较上月 " + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
+              }
+            }
+            return p.marker + p.seriesName + ": " + fmt(cur) + extra;
+          };
+          return params[0].axisValue + "<br/>" + params.map(lineFor).join("<br/>");
+        }"""
 
 
 CITY_SLUG = {
@@ -211,7 +255,7 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
         legend: {{ top: 4, data: ["新建商品住宅", "二手住宅"] }},
         tooltip: {{
           trigger: "axis",
-          {_TOOLTIP_INDEX}
+          {_TOOLTIP_AXIS_MOM_INDEX}
         }},
         grid: {{ left: 56, right: 26, top: 42, bottom: 56 }},
         xAxis: {{
@@ -261,7 +305,9 @@ def render_city_page(
     note: str | None = None,
 ) -> str:
     desc = description or f"{city}新房与二手房定基指数趋势。"
-    note_txt = note or "东财 70 城月度环比指数折算定基（2014-01=100）。"
+    note_txt = note or (
+        "东财 70 城月度环比指数折算定基（2014-01=100）；悬停图表可看各线相对上月的涨跌幅度。"
+    )
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -443,6 +489,26 @@ def render_suzhou_yuan_embed(
         for m, nv, sv in zip(months, new_yuan, second_yuan, strict=True)
     ]
     data_j = json.dumps(payload, ensure_ascii=False)
+    table_body = _html_yuan_table_rows(payload)
+    _suzhou_tooltip = """formatter: function (params) {
+          const fmt = (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { maximumFractionDigits: 0 }));
+          const lineFor = (p) => {
+            const i = p.dataIndex;
+            const row = rows[i];
+            const cur = p.seriesName === "新建商品住宅" ? row.new : row.second;
+            let extra = "";
+            if (i > 0) {
+              const prevRow = rows[i - 1];
+              const prev = p.seriesName === "新建商品住宅" ? prevRow.new : prevRow.second;
+              if (prev != null && prev !== 0 && cur != null && !Number.isNaN(Number(prev)) && !Number.isNaN(Number(cur))) {
+                const pct = (cur / prev - 1) * 100;
+                extra = " · 较上月 " + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
+              }
+            }
+            return p.marker + p.seriesName + ": " + fmt(cur) + extra;
+          };
+          return params[0].axisValue + "<br/>" + params.map(lineFor).join("<br/>");
+        }"""
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -451,11 +517,29 @@ def render_suzhou_yuan_embed(
     <title>苏州房价成交均价</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 {_EMBED_BASE_STYLE}
+{_CITY_EMBED_TABLE_STYLE}
   </head>
   <body>
     <div class="wrap">
       <p class="meta">苏州 · 成交均价（元/㎡） · 数据源：cn-gold-house-price/suzhou_house_price.json</p>
       <div id="chart"></div>
+      <section class="table-block" aria-label="月度成交均价数据表">
+        <p class="table-caption">月度数据表（成交均价元/㎡，与上图一致）</p>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">月份</th>
+                <th scope="col">新建商品住宅</th>
+                <th scope="col">二手住宅</th>
+              </tr>
+            </thead>
+            <tbody>
+{table_body}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
     <script>
       const rows = {data_j};
@@ -465,7 +549,7 @@ def render_suzhou_yuan_embed(
         legend: {{ top: 4, data: ["新建商品住宅", "二手住宅"] }},
         tooltip: {{
           trigger: "axis",
-          valueFormatter: (v) => (v == null || v === "" ? "—" : Number(v).toLocaleString("zh-CN"))
+          {_suzhou_tooltip}
         }},
         grid: {{ left: 56, right: 26, top: 42, bottom: 56 }},
         xAxis: {{
@@ -538,7 +622,10 @@ def write_suzhou_pages() -> None:
         "苏州",
         slug,
         description="苏州新房与二手房成交均价（元/㎡）月度轨迹。",
-        note="与 70 城页不同：本图为成交均价（元/㎡），非东财定基指数。",
+        note=(
+            "与 70 城页不同：本图为成交均价（元/㎡），非东财定基指数；"
+            "下方数据表与悬停提示与 70 城页一致，便于对照月度水平与环比变化。"
+        ),
     )
     (EMBED_DIR / f"city-{slug}-house-price-trend.html").write_text(embed, encoding="utf-8")
     (VIZ_DIR / f"city-{slug}-house-price.html").write_text(shell, encoding="utf-8")
