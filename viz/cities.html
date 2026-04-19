@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="东财70城房价定基指数城市总览，支持检索与拼音分组浏览。" />
+    <meta name="description" content="东财70城新房与二手房价格走势（定基指数）城市总览，支持检索与拼音分组。" />
     <title>70城房价总览 · cedar</title>
     <link rel="stylesheet" href="../css/style.css" />
   </head>
@@ -13,7 +13,7 @@
       <header class="viz-top">
         <a class="viz-back" href="../index.html" aria-label="返回 cedar 首页">‹ cedar</a>
         <h1 class="viz-title">70城房价总览</h1>
-        <p class="viz-note">东财 70 城月度环比指数折算定基（2014-01=100）；进入城市页后悬停图表可看相对上月的涨跌幅度。</p>
+        <p class="viz-note">单城页展示二手房与新建商品住宅价格水平变化趋势（定基 2014-01=100）；悬停可看环比涨跌。</p>
       </header>
       <section class="cities-toolbar" aria-label="检索与分组导航">
         <label for="city-search" class="visually-hidden">搜索城市</label>
@@ -24,9 +24,7 @@
       <main id="cities" class="city-groups" aria-label="70城列表"></main>
     </div>
     <script>
-      const cities = [
-        ["anqing","安庆"],["baotou","包头"],["beihai","北海"],["beijing","北京"],["bengbu","蚌埠"],["changchun","长春"],["changde","常德"],["changsha","长沙"],["chengdu","成都"],["chongqing","重庆"],["dali","大理"],["dalian","大连"],["dandong","丹东"],["fuzhou","福州"],["ganzhou","赣州"],["guangzhou","广州"],["guilin","桂林"],["guiyang","贵阳"],["haikou","海口"],["hangzhou","杭州"],["harbin","哈尔滨"],["hefei","合肥"],["hohhot","呼和浩特"],["huizhou","惠州"],["jilin","吉林"],["jinan","济南"],["jinhua","金华"],["jining","济宁"],["jinzhou","锦州"],["jiujiang","九江"],["kunming","昆明"],["lanzhou","兰州"],["luoyang","洛阳"],["luzhou","泸州"],["mudanjiang","牡丹江"],["nanchang","南昌"],["nanchong","南充"],["nanjing","南京"],["nanning","南宁"],["ningbo","宁波"],["pingdingshan","平顶山"],["qingdao","青岛"],["qinhuangdao","秦皇岛"],["quanzhou","泉州"],["sanya","三亚"],["shanghai","上海"],["shaoguan","韶关"],["shenyang","沈阳"],["shenzhen","深圳"],["shijiazhuang","石家庄"],["taiyuan","太原"],["tangshan","唐山"],["tianjin","天津"],["urumqi","乌鲁木齐"],["wenzhou","温州"],["wuhan","武汉"],["wuxi","无锡"],["xiamen","厦门"],["xian","西安"],["xiangyang","襄阳"],["xining","西宁"],["xuzhou","徐州"],["yangzhou","扬州"],["yantai","烟台"],["yichang","宜昌"],["yinchuan","银川"],["yueyang","岳阳"],["zhanjiang","湛江"],["zhengzhou","郑州"],["zunyi","遵义"]
-      ];
+      const cities = [["anqing", "安庆"], ["baotou", "包头"], ["beihai", "北海"], ["beijing", "北京"], ["bengbu", "蚌埠"], ["changchun", "长春"], ["changde", "常德"], ["changsha", "长沙"], ["chengdu", "成都"], ["chongqing", "重庆"], ["dali", "大理"], ["dalian", "大连"], ["dandong", "丹东"], ["fuzhou", "福州"], ["ganzhou", "赣州"], ["guangzhou", "广州"], ["guilin", "桂林"], ["guiyang", "贵阳"], ["haikou", "海口"], ["hangzhou", "杭州"], ["harbin", "哈尔滨"], ["hefei", "合肥"], ["hohhot", "呼和浩特"], ["huizhou", "惠州"], ["jilin", "吉林"], ["jinan", "济南"], ["jinhua", "金华"], ["jining", "济宁"], ["jinzhou", "锦州"], ["jiujiang", "九江"], ["kunming", "昆明"], ["lanzhou", "兰州"], ["luoyang", "洛阳"], ["luzhou", "泸州"], ["mudanjiang", "牡丹江"], ["nanchang", "南昌"], ["nanchong", "南充"], ["nanjing", "南京"], ["nanning", "南宁"], ["ningbo", "宁波"], ["pingdingshan", "平顶山"], ["qingdao", "青岛"], ["qinhuangdao", "秦皇岛"], ["quanzhou", "泉州"], ["sanya", "三亚"], ["shanghai", "上海"], ["shaoguan", "韶关"], ["shenyang", "沈阳"], ["shenzhen", "深圳"], ["shijiazhuang", "石家庄"], ["taiyuan", "太原"], ["tangshan", "唐山"], ["tianjin", "天津"], ["urumqi", "乌鲁木齐"], ["wenzhou", "温州"], ["wuhan", "武汉"], ["wuxi", "无锡"], ["xiamen", "厦门"], ["xian", "西安"], ["xiangyang", "襄阳"], ["xining", "西宁"], ["xuzhou", "徐州"], ["yangzhou", "扬州"], ["yantai", "烟台"], ["yichang", "宜昌"], ["yinchuan", "银川"], ["yueyang", "岳阳"], ["zhanjiang", "湛江"], ["zhengzhou", "郑州"], ["zunyi", "遵义"]];
 
       const groups = new Map();
       cities.forEach(([pinyin, name]) => {

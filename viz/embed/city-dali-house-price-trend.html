@@ -3,33 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>大理房价定基指数</title>
+    <title>大理二手房与新房价格趋势</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <style>
-      html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
-      .wrap {{ padding: 18px 18px 6px; }}
-      .meta {{ margin: 0 0 12px; color: #6e6e73; font-size: 13px; }}
-      #chart {{ width: 100%; height: 640px; }}
+      html, body { margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }
+      .wrap { padding: 18px 18px 6px; }
+      .meta { margin: 0 0 12px; color: #6e6e73; font-size: 13px; }
+      #chart { width: 100%; height: 640px; }
     </style>
     <style>
-      .table-block {{ margin-top: 16px; padding-bottom: 12px; }}
-      .table-caption {{ margin: 0 0 8px; font-size: 13px; color: #6e6e73; }}
-      .table-scroll {{ max-height: min(360px, 42vh); overflow: auto; border: 1px solid rgba(29,29,31,0.12); border-radius: 10px; background: #fff; }}
-      .data-table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
-      .data-table thead th {{ position: sticky; top: 0; background: #f5f5f7; color: #6e6e73; font-weight: 600; z-index: 1; box-shadow: 0 1px 0 rgba(29,29,31,0.08); }}
-      .data-table th, .data-table td {{ padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(29,29,31,0.08); }}
-      .data-table tbody tr:hover {{ background: rgba(0,102,204,0.04); }}
-      .data-table td.num {{ text-align: right; font-variant-numeric: tabular-nums; }}
-      .data-table td:nth-child(2) {{ color: #34a853; }}
-      .data-table td:nth-child(3) {{ color: #0066cc; }}
+      .table-block { margin-top: 16px; padding-bottom: 12px; }
+      .table-caption { margin: 0 0 8px; font-size: 13px; color: #6e6e73; }
+      .table-scroll { max-height: min(360px, 42vh); overflow: auto; border: 1px solid rgba(29,29,31,0.12); border-radius: 10px; background: #fff; }
+      .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .data-table thead th { position: sticky; top: 0; background: #f5f5f7; color: #6e6e73; font-weight: 600; z-index: 1; box-shadow: 0 1px 0 rgba(29,29,31,0.08); }
+      .data-table th, .data-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(29,29,31,0.08); }
+      .data-table tbody tr:hover { background: rgba(0,102,204,0.04); }
+      .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+      .data-table td:nth-child(2) { color: #34a853; }
+      .data-table td:nth-child(3) { color: #0066cc; }
     </style>
   </head>
   <body>
     <div class="wrap">
-      <p class="meta">大理 · 定基指数（2014-01=100） · 数据源：东财70城月度</p>
+      <p class="meta">大理 · 二手房与新房价格水平变化趋势 · 定基指数（2014-01=100） · 东财70城月度</p>
       <div id="chart"></div>
       <section class="table-block" aria-label="月度定基指数数据表">
-        <p class="table-caption">月度数据表（定基指数 2014-01=100，与上图一致）</p>
+        <p class="table-caption">月度定基指数（与折线一致；指数刻画新房、二手房各自价格走势）</p>
         <div class="table-scroll">
           <table class="data-table">
             <thead>
@@ -198,9 +198,10 @@
       const chart = echarts.init(document.getElementById("chart"));
       chart.setOption({
         animationDuration: 300,
-        legend: { top: 4, data: ["新建商品住宅", "二手住宅"] },
+        legend: { top: 4, data: ["二手住宅", "新建商品住宅"] },
         tooltip: {
           trigger: "axis",
+          axisPointer: { type: "cross" },
           formatter: function (params) {
           const fmt = (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
           const lineFor = (p) => {
@@ -228,7 +229,7 @@
         },
         yAxis: {
           type: "value",
-          name: "2014-01=100",
+          name: "定基指数（价格走势）",
           axisLabel: { color: "#6e6e73" },
           splitLine: { lineStyle: { color: "rgba(29,29,31,0.12)" } }
         },

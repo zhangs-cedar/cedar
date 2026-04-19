@@ -28,13 +28,15 @@
 
 | 入口 | 路径 / 说明 |
 |------|-------------|
-| 首页 | `index.html` — 图表目录、GitHub/联系、**页脚展示 `main` 最新提交时间**（浏览器请求 GitHub API，上海时区文案）。 |
-| 70 城总览 | `viz/cities.html` — 拼音分组、检索；链到各城单页。 |
-| 单城房价 | `viz/city-<slug>-house-price.html` + `viz/embed/city-*-house-price-trend.html` — 定基指数曲线、月度表、tooltip 环比提示。 |
-| 苏州（元/㎡） | `viz/city-suzhou-house-price.html` 等 — 与 70 城同一套生成逻辑，指标为成交均价。 |
-| 黄金储备 | `viz/gold-reserves.html` + `viz/embed/gold-reserves-trend.html` |
+| 首页 | `index.html` — **由脚本生成**；图表目录、GitHub/联系、页脚 **`main` 提交时间**（浏览器请求 GitHub API）。 |
+| 70 城总览 | `viz/cities.html` — **由脚本生成**；拼音分组、检索；链到各城单页。 |
+| 单城房价 | `viz/city-<slug>-house-price.html` + `viz/embed/city-*-house-price-trend.html` — **由脚本生成**。 |
+| 苏州（元/㎡） | `viz/city-suzhou-house-price.html` 等 — **由脚本生成**，指标为成交均价。 |
+| 黄金储备 | `viz/gold-reserves.html` + `viz/embed/gold-reserves-trend.html` — **由脚本生成**。 |
 
-城市列表与元数据：`viz/cities.json`。
+城市列表与元数据：`viz/cities.json`（**由脚本生成**）。
+
+**样式** `css/` 仍手维护；**其余上表所列 HTML（含首页）均由 `generate_city_pages.py` 写出**。
 
 ---
 
@@ -54,7 +56,13 @@
 | **形态** | 以 **静态 HTML/CSS/JS** 为主；图表多为 **ECharts**（iframe embed）。无应用级后端。 |
 | **构建** | 仓库 **不设打包构建**；GitHub Actions 将仓库根目录 **原样** 部署为 Pages（见 `.github/workflows/deploy.yml`）。 |
 | **发布** | 合并/推送到 **`main`** → Workflow 部署 → 数分钟内站点更新。 |
-| **本地再生** | `scripts/generate_city_pages.py` 用于批量生成/更新城市页与 embed；脚本内数据路径指向开发机上的 **skill 数据目录**（见脚本顶部常量）。换环境需改路径或同步数据，否则只改静态文件不跑脚本亦可。 |
+| **本地再生** | 在仓库根执行：`python3 scripts/generate_city_pages.py`。数据路径见脚本顶部（默认同 skill 数据目录）。 |
+
+### 5.1 生成规范（给 AI / 协作者，建议当作硬约束）
+
+- **禁止**直接批量手改、或用对话 AI 改下列已生成文件后提交：`index.html`、`viz/embed/city-*-house-price-trend.html`、`viz/city-*-house-price.html`、`viz/cities.html`、`viz/cities.json`、`viz/gold-reserves.html`、`viz/embed/gold-reserves-trend.html`、苏州相关页及脚本写入的其它产物。
+- **正确做法**：只改 `scripts/generate_city_pages.py`（及数据 JSON），再运行 `python3 scripts/generate_city_pages.py`，用 Git diff 审阅生成结果后提交。
+- **原因**：避免「脚本与磁盘 HTML 分叉」，否则下次跑脚本会覆盖手改，或线上与仓库不一致。
 
 ---
 
@@ -71,9 +79,9 @@
 ## 7. AI 协作提示（浓缩）
 
 1. **默认假设**：优先在 **本仓库** 内完成可视化与文案；对外演示链接以 **GitHub Pages** 为准。  
-2. **改大量城市页**：先确认是否需跑 `generate_city_pages.py`，以及数据路径是否可用。  
+2. **房价类页面**：一律通过 **`scripts/generate_city_pages.py` 规范生成**，不要直接改 `viz/` 下由该脚本产出的 HTML。改模板、文案、图表选项 → 改脚本 → 运行脚本 → 提交脚本 + 生成文件。  
 3. **不要做**：引入必须服务端才能跑的功能、或依赖桌面 GUI 的说明（部署环境无图形界面）。  
-4. **提交习惯**：小而可读的 commit message；与图表相关的改动尽量 **文案 + 生成物** 一致，避免「只改一半」。
+4. **提交习惯**：小而可读的 commit message；图表相关改动必须 **脚本变更 + 再生成的静态文件** 同提交，避免只改一侧。
 
 ---
 
