@@ -67,6 +67,39 @@
 
     <footer class="site-footer">
       <p class="footer-line">Built for GitHub Pages. Zero build, focused delivery.</p>
+      <p class="footer-updated" id="site-updated" aria-live="polite">内容更新：加载中…</p>
     </footer>
+    <script>
+      (function () {
+        var el = document.getElementById("site-updated");
+        if (!el) return;
+        var repo = "zhangs-cedar/cedar";
+        fetch("https://api.github.com/repos/" + repo + "/commits/main", {
+          headers: { Accept: "application/vnd.github+json" },
+        })
+          .then(function (r) {
+            if (!r.ok) throw new Error("github");
+            return r.json();
+          })
+          .then(function (data) {
+            var raw = data && data.commit && data.commit.committer && data.commit.committer.date;
+            if (!raw) throw new Error("date");
+            var dt = new Date(raw);
+            var fmt = new Intl.DateTimeFormat("zh-CN", {
+              timeZone: "Asia/Shanghai",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+            el.textContent = "内容更新：" + fmt.format(dt) + "（上海，main 最新提交）";
+          })
+          .catch(function () {
+            el.textContent = "内容更新：暂无法获取（可刷新重试）";
+          });
+      })();
+    </script>
   </body>
 </html>
