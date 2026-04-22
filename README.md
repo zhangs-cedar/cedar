@@ -28,7 +28,7 @@
 
 | 入口 | 路径 / 说明 |
 |------|-------------|
-| 首页 | `index.html` — **由脚本生成**；图表目录、**推荐平台**（如 README §9：PDF24、PicDiet 等）、GitHub/联系、页脚 **`main` 提交时间**（浏览器请求 GitHub API）。 |
+| 首页 | `index.html` — **由脚本生成**；图表目录、**推荐平台**（如 README §9：PDF24、PicDiet、mac-commondX 等）、GitHub/联系、页脚 **`main` 提交时间**（浏览器请求 GitHub API）。 |
 | 70 城总览 | `viz/cities.html` — **由脚本生成**；拼音分组、检索；链到各城单页。 |
 | 单城房价 | `viz/city-<slug>-house-price.html` + `viz/embed/city-*-house-price-trend.html` — **由脚本生成**。 |
 | 苏州（元/㎡） | `viz/city-suzhou-house-price.html` 等 — **由脚本生成**，指标为成交均价。 |
