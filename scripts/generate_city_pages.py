@@ -59,7 +59,7 @@ INDEX_CARD_SUZHOU = (
     "与 70 城同套 ECharts 生成",
 )
 INDEX_PANEL_RECOMMEND_TITLE = "推荐平台"
-# 与 README「§9 推荐网页工具」一致，可在此增删外链卡片
+# 与 README「§9 推荐工具」一致，可在此增删外链卡片
 INDEX_CARD_PDF24 = (
     "https://tools.pdf24.org/zh/all-tools",
     "Tool",
@@ -73,6 +73,14 @@ INDEX_CARD_PICDIET = (
     "PicDiet 图片压缩",
     "在线批量压图、可选质量与尺寸，在浏览器内处理，与 README §9 同源",
     "图片处理",
+)
+# 你提到的类「Mac Cmd+X」场景：YONN2222 开源 cmdX（与仓库名/俗称 mac command 剪切一致）
+INDEX_CARD_CMDX = (
+    "https://github.com/YONN2222/cmdX",
+    "Indie",
+    "cmdX",
+    "在 macOS Finder 中补齐文件剪切（Cmd+X）与粘贴移动，轻量、MIT、需授予辅助功能权限。",
+    "个人开源 · 仅 Mac",
 )
 INDEX_PANEL_MORE_TITLE = "更多入口"
 INDEX_LINK_GITHUB = (
