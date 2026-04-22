@@ -825,6 +825,7 @@ def render_index_html() -> str:
     hs, k2, t2, s2, m2 = INDEX_CARD_SUZHOU
     pdf_h, pdf_k, pdf_t, pdf_s, pdf_m = INDEX_CARD_PDF24
     pic_h, pic_k, pic_t, pic_s, pic_m = INDEX_CARD_PICDIET
+    cmdx_h, cmdx_k, cmdx_t, cmdx_s, cmdx_m = INDEX_CARD_CMDX
     g_h, g_k, g_t, g_s = INDEX_LINK_GITHUB
     m_h, m_k, m_t, m_s = INDEX_LINK_MAIL
 
@@ -931,6 +932,17 @@ def render_index_html() -> str:
             <span class="entry-title">{et(pic_t)}</span>
             <span class="entry-sub">{et(pic_s)}</span>
             <span class="entry-meta">{et(pic_m)}</span>
+          </a>
+          <a
+            class="entry-card entry-card--minor"
+            href="{ea(cmdx_h)}"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span class="entry-kicker">{et(cmdx_k)}</span>
+            <span class="entry-title">{et(cmdx_t)}</span>
+            <span class="entry-sub">{et(cmdx_s)}</span>
+            <span class="entry-meta">{et(cmdx_m)}</span>
           </a>
         </div>
       </section>
