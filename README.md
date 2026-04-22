@@ -92,4 +92,7 @@
 
 
 ## 9 推荐网页工具
-https://tools.pdf24.org/zh/all-tools
+
+- PDF 等网页办公：<https://tools.pdf24.org/zh/all-tools>（同首页「推荐平台」卡片）。
+- 图片压缩：<https://www.picdiet.com/zh-cn>。
+- 上海金交所数据资讯/行情：<https://www.sge.com.cn/sjzx/mrhq> — 与 cedar **央行黄金储备**图（**官方库存，万盎司**）口径不同；在 **`viz/gold-reserves.html`** 内已作**外链对照**（不嵌官网 iframe，防 X-Frame 拦截且更轻量）。

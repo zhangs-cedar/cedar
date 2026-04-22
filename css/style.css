@@ -256,6 +256,29 @@ a {
   font-size: 0.9rem;
 }
 
+.viz-ref {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.viz-ref a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 102, 204, 0.28);
+  transition: border-color 180ms ease;
+}
+
+.viz-ref a:hover,
+.viz-ref a:focus-visible {
+  border-bottom-color: var(--line-strong);
+}
+
+.viz-ref-text {
+  color: var(--muted);
+}
+
 .viz-frame {
   width: 100%;
   min-height: 90vh;

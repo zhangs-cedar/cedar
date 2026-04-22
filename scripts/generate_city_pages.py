@@ -84,6 +84,11 @@ INDEX_FOOTER_LINE = "Built for GitHub Pages. Zero build, focused delivery."
 INDEX_FOOTER_LOADING = "内容更新：加载中…"
 INDEX_GITHUB_REPO = "zhangs-cedar/cedar"
 
+# 黄金储备壳页：上金所行情与 README §9 最后一链同源，仅外链对照（不 iframe 嵌官网）
+GOLD_SGE_DAILY_URL = "https://www.sge.com.cn/sjzx/mrhq"
+GOLD_SGE_DAILY_ANCHOR = "上海金交所 · 数据资讯/今日行情"
+GOLD_SGE_DAILY_BLURB = "展示国内即期/现货等市场报价，与「央行黄金储备（官方库存量）」口径不同；可新开本页，与下方面板走势对照。"
+
 # 与苏州 embed 对齐：字体、留白、图例位置、tooltip、折线样式（定基页 y 轴语义不同）
 _EMBED_BASE_STYLE = """    <style>
       html, body { margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }
@@ -505,7 +510,10 @@ def render_gold_embed(months: list[str], amounts: list[float], deltas: list[floa
 
 
 def render_gold_shell() -> str:
-    return """<!DOCTYPE html>
+    u = html.escape(GOLD_SGE_DAILY_URL, quote=True)
+    an = html.escape(GOLD_SGE_DAILY_ANCHOR, quote=False)
+    bl = html.escape(GOLD_SGE_DAILY_BLURB, quote=False)
+    return f"""<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
@@ -524,6 +532,10 @@ def render_gold_shell() -> str:
         <a class="viz-back" href="../index.html" aria-label="返回 cedar 首页">‹ cedar</a>
         <h1 class="viz-title">黄金储备变化</h1>
         <p class="viz-note">月度库存（万盎司）与相邻月差值；双图布局，样式与苏州、70 城房价 embed 一致。</p>
+        <p class="viz-ref">
+          <a href="{u}" rel="noopener noreferrer" target="_blank">{an}</a>
+          <span class="viz-ref-text"> — {bl}</span>
+        </p>
       </header>
       <iframe
         id="chart"
