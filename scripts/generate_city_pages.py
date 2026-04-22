@@ -67,6 +67,13 @@ INDEX_CARD_PDF24 = (
     "在线 PDF 合并、拆分、压缩、OCR 等，浏览器内完成，无需安装客户端",
     "网页办公",
 )
+INDEX_CARD_PICDIET = (
+    "https://www.picdiet.com/zh-cn",
+    "Tool",
+    "PicDiet 图片压缩",
+    "在线批量压图、可选质量与尺寸，在浏览器内处理，与 README §9 同源",
+    "图片处理",
+)
 INDEX_PANEL_MORE_TITLE = "更多入口"
 INDEX_LINK_GITHUB = (
     "https://github.com/zhangs-cedar/cedar",
@@ -809,6 +816,7 @@ def render_index_html() -> str:
     hg, k1, t1, s1, m1 = INDEX_CARD_GOLD
     hs, k2, t2, s2, m2 = INDEX_CARD_SUZHOU
     pdf_h, pdf_k, pdf_t, pdf_s, pdf_m = INDEX_CARD_PDF24
+    pic_h, pic_k, pic_t, pic_s, pic_m = INDEX_CARD_PICDIET
     g_h, g_k, g_t, g_s = INDEX_LINK_GITHUB
     m_h, m_k, m_t, m_s = INDEX_LINK_MAIL
 
@@ -904,6 +912,17 @@ def render_index_html() -> str:
             <span class="entry-title">{et(pdf_t)}</span>
             <span class="entry-sub">{et(pdf_s)}</span>
             <span class="entry-meta">{et(pdf_m)}</span>
+          </a>
+          <a
+            class="entry-card entry-card--minor"
+            href="{ea(pic_h)}"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span class="entry-kicker">{et(pic_k)}</span>
+            <span class="entry-title">{et(pic_t)}</span>
+            <span class="entry-sub">{et(pic_s)}</span>
+            <span class="entry-meta">{et(pic_m)}</span>
           </a>
         </div>
       </section>

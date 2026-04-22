@@ -28,7 +28,7 @@
 
 | 入口 | 路径 / 说明 |
 |------|-------------|
-| 首页 | `index.html` — **由脚本生成**；图表目录、**推荐平台**（如 README §9 网页办公工具 PDF24）、GitHub/联系、页脚 **`main` 提交时间**（浏览器请求 GitHub API）。 |
+| 首页 | `index.html` — **由脚本生成**；图表目录、**推荐平台**（如 README §9：PDF24、PicDiet 等）、GitHub/联系、页脚 **`main` 提交时间**（浏览器请求 GitHub API）。 |
 | 70 城总览 | `viz/cities.html` — **由脚本生成**；拼音分组、检索；链到各城单页。 |
 | 单城房价 | `viz/city-<slug>-house-price.html` + `viz/embed/city-*-house-price-trend.html` — **由脚本生成**。 |
 | 苏州（元/㎡） | `viz/city-suzhou-house-price.html` 等 — **由脚本生成**，指标为成交均价。 |
@@ -93,6 +93,7 @@
 
 ## 9 推荐网页工具
 
-- PDF 等网页办公：<https://tools.pdf24.org/zh/all-tools>（同首页「推荐平台」卡片）。
-- 图片压缩：<https://www.picdiet.com/zh-cn>。
+- PDF 等网页办公：<https://tools.pdf24.org/zh/all-tools>（同首页「推荐平台」第一卡）。
+- 图片压缩：<https://www.picdiet.com/zh-cn>（同首页「推荐平台」第二卡）。
+- https://github.com/zhangs-cedar/mac-commondX 
 - 上海金交所数据资讯/行情：<https://www.sge.com.cn/sjzx/mrhq> — 与 cedar **央行黄金储备**图（**官方库存，万盎司**）口径不同；在 **`viz/gold-reserves.html`** 内已作**外链对照**（不嵌官网 iframe，防 X-Frame 拦截且更轻量）。
