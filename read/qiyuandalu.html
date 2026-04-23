@@ -13,7 +13,16 @@
       <header class="viz-top read-head">
         <a class="viz-back" href="../index.html" aria-label="返回 cedar 首页">‹ cedar</a>
         <h1 class="viz-title">吞噬星空2 · 起源大陆</h1>
-        <p class="viz-note">纯文本阅读；正文在首屏后从同目录 <code>qiyuandalu.txt</code> 加载。滚动时会自动记住读到的章节；也可在地址栏使用 <code>#ch-章节号</code> 收藏或分享。</p>
+        <p class="viz-note">纯文本阅读；正文在首屏后从同目录 <code>qiyuandalu.txt</code> 加载。顶部可展开<strong>章节目录</strong>；滚动会记住读到的章节；地址栏 <code>#ch-章节号</code> 可收藏或分享。</p>
+        <details id="read-toc" class="read-toc" hidden>
+          <summary class="read-toc-summary">
+            章节目录
+            <span class="read-toc-meta">（共 <span id="read-toc-count" class="read-toc-count">0</span> 章）</span>
+          </summary>
+          <div class="read-toc-panel">
+            <nav id="read-toc-list" class="read-toc-list" aria-label="章节目录"></nav>
+          </div>
+        </details>
         <div id="read-tools" class="read-tools" hidden>
           <div class="read-tools-row">
             <p id="read-resume" class="read-resume" hidden>
@@ -65,8 +74,11 @@
         var chapterNum = document.getElementById("read-chapter-num");
         var chapterGo = document.getElementById("read-chapter-go");
         var chapterHint = document.getElementById("read-chapter-hint");
+        var tocRoot = document.getElementById("read-toc");
+        var tocList = document.getElementById("read-toc-list");
+        var tocCount = document.getElementById("read-toc-count");
 
-        if (!status || !err || !article || !body || !tools) return;
+        if (!status || !err || !article || !body || !tools || !tocRoot || !tocList || !tocCount) return;
 
         var chapterRe = /^第(\d+)章[）\)]?[\s\u3000]*(.*)$/;
         var scrollTimer = null;
@@ -109,6 +121,45 @@
             chapterNum.max = maxChapter || 9999;
             chapterHint.textContent = maxChapter ? "共 " + maxChapter + " 章" : "";
           }
+          fillToc();
+        }
+
+        function fillToc() {
+          tocList.textContent = "";
+          var heads = body.querySelectorAll(".read-chapter");
+          tocCount.textContent = String(heads.length);
+          var frag = document.createDocumentFragment();
+          for (var i = 0; i < heads.length; i++) {
+            var h = heads[i];
+            var id = h.id || "";
+            if (!id || id.indexOf("ch-") !== 0) continue;
+            var a = document.createElement("a");
+            a.className = "read-toc-link";
+            a.href = "#" + id;
+            a.textContent = h.textContent.trim();
+            frag.appendChild(a);
+          }
+          tocList.appendChild(frag);
+        }
+
+        function wireToc() {
+          tocList.addEventListener("click", function (e) {
+            var t = e.target;
+            var a = null;
+            if (t && t.closest) a = t.closest("a");
+            else if (t && t.nodeType === 3 && t.parentElement && t.parentElement.closest) a = t.parentElement.closest("a");
+            if (!a || !a.getAttribute("href")) return;
+            var href = a.getAttribute("href") || "";
+            var m = /^#ch-(\d+)$/.exec(href);
+            if (!m) return;
+            e.preventDefault();
+            var n = parseInt(m[1], 10);
+            if (isNaN(n)) return;
+            scrollToChapter(n, true);
+            try {
+              tocRoot.open = false;
+            } catch (err) {}
+          });
         }
 
         function getStoredChapter() {
@@ -244,7 +295,9 @@
             status.hidden = true;
             article.hidden = false;
             tools.hidden = false;
+            tocRoot.hidden = false;
             wireJump();
+            wireToc();
             applyHashOrResume();
             window.addEventListener("scroll", onScrollPersist, { passive: true });
           })
