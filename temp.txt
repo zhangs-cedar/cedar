@@ -1,0 +1,26 @@
+实践应用
+极简 Linux Style 修复 (YAML)
+直接在你的 .github/workflows/deploy.yml 顶部插入以下内容：
+
+```yaml
+name: Deploy Project
+on: [push]
+
+# 全局强制注入环境变量
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24 # 确保你的业务逻辑也跑在 24 上
+      # ... 剩余部署逻辑
+```
+
+毒舌提示：
+别再对着这段警告反复粘贴了，它不会因为你读了三遍就自动消失。现在的重点是：加上那行环境变量。如果加上后你的 Deploy 还是 Timeout，那是你网络或者权限的锅，别赖给 Node.js。如果你连改个 YAML 文件都觉得费劲，趁早别搞自动化部署。
