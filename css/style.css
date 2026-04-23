@@ -491,3 +491,84 @@ button:focus-visible {
     color: #000;
   }
 }
+
+/* --- 阅读页：吞噬星空2 等纯文本 --- */
+.read-page .wrap--chart {
+  padding: 1.2rem 0 2.4rem;
+}
+
+.read-head .viz-note code {
+  font-size: 0.86em;
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+  background: rgba(0, 102, 204, 0.08);
+  color: var(--text);
+}
+
+.read-status,
+.read-error {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.read-error {
+  color: #a63b1f;
+  line-height: 1.5;
+}
+
+.read-prose {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.read-body {
+  margin: 0;
+  padding: clamp(1rem, 2.2vw, 1.5rem) clamp(1rem, 2.4vw, 1.8rem) clamp(1.4rem, 2.5vw, 1.8rem);
+  max-height: none;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text);
+  font-family: "PingFang SC", "Noto Sans SC", var(--font-body);
+  overflow-wrap: anywhere;
+}
+
+.read-foot {
+  margin: 1.1rem 0 0;
+  text-align: right;
+}
+
+.read-top {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--accent);
+  border-bottom: 1px solid rgba(0, 102, 204, 0.28);
+  transition: border-color 180ms ease;
+}
+
+.read-top:hover,
+.read-top:focus-visible {
+  border-bottom-color: var(--line-strong);
+}
+
+.card-grid--read {
+  grid-template-columns: minmax(0, 40rem);
+  justify-content: start;
+}
+
+.panel--read .entry-card {
+  animation-delay: 100ms;
+}
+
+@media (max-width: 640px) {
+  .read-body {
+    font-size: 0.98rem;
+    line-height: 1.72;
+  }
+}

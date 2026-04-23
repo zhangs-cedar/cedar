@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="吞噬星空2 · 起源大陆 — 纯文本阅读。" />
+    <title>吞噬星空2 · 起源大陆 · cedar</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body class="viz-page read-page">
+    <a class="skip" href="#read">跳到正文</a>
+    <div class="wrap--chart">
+      <header class="viz-top read-head">
+        <a class="viz-back" href="../index.html" aria-label="返回 cedar 首页">‹ cedar</a>
+        <h1 class="viz-title">吞噬星空2 · 起源大陆</h1>
+        <p class="viz-note">纯文本阅读；正文在首屏后从同目录 <code>qiyuandalu.txt</code> 加载。</p>
+      </header>
+      <p id="read-status" class="read-status" role="status">正在加载全文…</p>
+      <p id="read-error" class="read-error" hidden></p>
+      <article id="read" class="read-prose" aria-label="小说正文" tabindex="-1" hidden>
+        <div id="read-body" class="read-body"></div>
+      </article>
+      <p class="read-foot">
+        <a class="read-top" href="#read">回正文顶部</a>
+      </p>
+    </div>
+    <script>
+      (function () {
+        var status = document.getElementById("read-status");
+        var err = document.getElementById("read-error");
+        var article = document.getElementById("read");
+        var body = document.getElementById("read-body");
+        if (!status || !err || !article || !body) return;
+        fetch("qiyuandalu.txt", { cache: "force-cache" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("load");
+            return r.text();
+          })
+          .then(function (text) {
+            body.textContent = text;
+            status.hidden = true;
+            article.hidden = false;
+            if (location.hash === "#read") {
+              requestAnimationFrame(function () {
+                document.getElementById("read").focus({ preventScroll: true });
+                document.getElementById("read").scrollIntoView({ block: "start" });
+              });
+            }
+          })
+          .catch(function () {
+            status.hidden = true;
+            err.hidden = false;
+            err.textContent = "无法加载 qiyuandalu.txt。若本地直接打开本 HTML 文件，浏览器会限制跨源请求，请通过 cedar 的站点或本地静态服务器打开。";
+          });
+      })();
+    </script>
+  </body>
+</html>
