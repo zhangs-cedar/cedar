@@ -13,7 +13,31 @@
       <header class="viz-top read-head">
         <a class="viz-back" href="../index.html" aria-label="返回 cedar 首页">‹ cedar</a>
         <h1 class="viz-title">吞噬星空2 · 起源大陆</h1>
-        <p class="viz-note">纯文本阅读；正文在首屏后从同目录 <code>qiyuandalu.txt</code> 加载。</p>
+        <p class="viz-note">纯文本阅读；正文在首屏后从同目录 <code>qiyuandalu.txt</code> 加载。滚动时会自动记住读到的章节；也可在地址栏使用 <code>#ch-章节号</code> 收藏或分享。</p>
+        <div id="read-tools" class="read-tools" hidden>
+          <div class="read-tools-row">
+            <p id="read-resume" class="read-resume" hidden>
+              <span id="read-resume-label" class="read-resume-label"></span>
+              <button type="button" id="read-resume-go" class="read-resume-btn">继续阅读</button>
+              <button type="button" id="read-resume-dismiss" class="read-resume-dismiss" aria-label="本次访问不再提示">关闭</button>
+            </p>
+            <p class="read-jump">
+              <label class="read-jump-label" for="read-chapter-num">跳转章节</label>
+              <input
+                type="number"
+                id="read-chapter-num"
+                class="read-chapter-num"
+                min="1"
+                step="1"
+                inputmode="numeric"
+                placeholder="如 42"
+                aria-describedby="read-chapter-hint"
+              />
+              <button type="button" id="read-chapter-go" class="read-jump-go">前往</button>
+              <span id="read-chapter-hint" class="read-jump-hint"></span>
+            </p>
+          </div>
+        </div>
       </header>
       <p id="read-status" class="read-status" role="status">正在加载全文…</p>
       <p id="read-error" class="read-error" hidden></p>
@@ -26,32 +50,215 @@
     </div>
     <script>
       (function () {
+        var STORAGE_KEY = "cedar-read-qiyuandalu:lastChapter";
+        var DISMISS_KEY = "cedar-read-qiyuandalu:resumeDismissed";
+
         var status = document.getElementById("read-status");
         var err = document.getElementById("read-error");
         var article = document.getElementById("read");
         var body = document.getElementById("read-body");
-        if (!status || !err || !article || !body) return;
+        var tools = document.getElementById("read-tools");
+        var resume = document.getElementById("read-resume");
+        var resumeLabel = document.getElementById("read-resume-label");
+        var resumeGo = document.getElementById("read-resume-go");
+        var resumeDismiss = document.getElementById("read-resume-dismiss");
+        var chapterNum = document.getElementById("read-chapter-num");
+        var chapterGo = document.getElementById("read-chapter-go");
+        var chapterHint = document.getElementById("read-chapter-hint");
+
+        if (!status || !err || !article || !body || !tools) return;
+
+        var chapterRe = /^第(\d+)章[）\)]?[\s\u3000]*(.*)$/;
+        var scrollTimer = null;
+        var maxChapter = 0;
+
+        function parseTextToBody(text) {
+          body.textContent = "";
+          maxChapter = 0;
+          var norm = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+          var lines = norm.split("\n");
+          var frag = document.createDocumentFragment();
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            var m = line.match(chapterRe);
+            if (m) {
+              var n = m[1];
+              var h = document.createElement("h2");
+              h.className = "read-chapter";
+              h.id = "ch-" + n;
+              h.textContent = line.trim();
+              frag.appendChild(h);
+              var cn = parseInt(n, 10);
+              if (cn > maxChapter) maxChapter = cn;
+            } else if (line.trim() !== "") {
+              var p = document.createElement("p");
+              p.className = "read-para";
+              p.textContent = line;
+              frag.appendChild(p);
+            }
+          }
+          body.appendChild(frag);
+          if (maxChapter < 1) {
+            var heads = body.querySelectorAll(".read-chapter");
+            heads.forEach(function (el) {
+              var idn = parseInt(String(el.id || "").replace(/^ch-/, ""), 10);
+              if (!isNaN(idn) && idn > maxChapter) maxChapter = idn;
+            });
+          }
+          if (chapterNum) {
+            chapterNum.max = maxChapter || 9999;
+            chapterHint.textContent = maxChapter ? "共 " + maxChapter + " 章" : "";
+          }
+        }
+
+        function getStoredChapter() {
+          try {
+            var v = localStorage.getItem(STORAGE_KEY);
+            if (v == null) return null;
+            var n = parseInt(v, 10);
+            return isNaN(n) || n < 1 ? null : n;
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function setStoredChapter(n) {
+          try {
+            localStorage.setItem(STORAGE_KEY, String(n));
+          } catch (e) {}
+        }
+
+        function chapterExists(n) {
+          return !!document.getElementById("ch-" + n);
+        }
+
+        function scrollToChapter(n, smooth) {
+          var el = document.getElementById("ch-" + n);
+          if (!el) return false;
+          el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+          try {
+            history.replaceState(null, "", "#ch-" + n);
+          } catch (e) {
+            location.hash = "#ch-" + n;
+          }
+          return true;
+        }
+
+        function currentChapterFromScroll() {
+          var heads = body.querySelectorAll(".read-chapter");
+          if (!heads.length) return 1;
+          var y = window.scrollY + Math.min(120, window.innerHeight * 0.12);
+          var cur = 1;
+          for (var i = 0; i < heads.length; i++) {
+            var top = heads[i].getBoundingClientRect().top + window.scrollY;
+            if (top <= y) {
+              var idn = parseInt(String(heads[i].id || "").replace(/^ch-/, ""), 10);
+              if (!isNaN(idn)) cur = idn;
+            } else {
+              break;
+            }
+          }
+          return cur;
+        }
+
+        function onScrollPersist() {
+          if (scrollTimer) clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(function () {
+            var c = currentChapterFromScroll();
+            if (c > 0) setStoredChapter(c);
+          }, 450);
+        }
+
+        function hashChapter() {
+          var h = location.hash || "";
+          var m = /^#ch-(\d+)$/.exec(h);
+          if (!m) return null;
+          var n = parseInt(m[1], 10);
+          return isNaN(n) ? null : n;
+        }
+
+        function applyHashOrResume() {
+          var hc = hashChapter();
+          if (hc != null && chapterExists(hc)) {
+            requestAnimationFrame(function () {
+              scrollToChapter(hc, false);
+            });
+            return;
+          }
+          if (location.hash === "#read") {
+            requestAnimationFrame(function () {
+              article.focus({ preventScroll: true });
+              article.scrollIntoView({ block: "start" });
+            });
+            return;
+          }
+          var dismissed = false;
+          try {
+            dismissed = sessionStorage.getItem(DISMISS_KEY) === "1";
+          } catch (e) {}
+          var stored = getStoredChapter();
+          if (!dismissed && stored != null && stored > 1 && chapterExists(stored)) {
+            resume.hidden = false;
+            resumeLabel.textContent = "上次读到第 " + stored + " 章";
+            resumeGo.onclick = function () {
+              scrollToChapter(stored, true);
+              resume.hidden = true;
+            };
+            resumeDismiss.onclick = function () {
+              try {
+                sessionStorage.setItem(DISMISS_KEY, "1");
+              } catch (e) {}
+              resume.hidden = true;
+            };
+          } else {
+            resume.hidden = true;
+          }
+        }
+
+        function wireJump() {
+          function go() {
+            var raw = chapterNum.value.trim();
+            var n = parseInt(raw, 10);
+            if (isNaN(n) || n < 1) return;
+            if (!chapterExists(n)) {
+              chapterNum.setCustomValidity("没有第 " + n + " 章");
+              chapterNum.reportValidity();
+              chapterNum.setCustomValidity("");
+              return;
+            }
+            scrollToChapter(n, true);
+          }
+          chapterGo.addEventListener("click", go);
+          chapterNum.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") go();
+          });
+        }
+
         fetch("qiyuandalu.txt", { cache: "force-cache" })
           .then(function (r) {
             if (!r.ok) throw new Error("load");
             return r.text();
           })
           .then(function (text) {
-            body.textContent = text;
+            parseTextToBody(text);
             status.hidden = true;
             article.hidden = false;
-            if (location.hash === "#read") {
-              requestAnimationFrame(function () {
-                document.getElementById("read").focus({ preventScroll: true });
-                document.getElementById("read").scrollIntoView({ block: "start" });
-              });
-            }
+            tools.hidden = false;
+            wireJump();
+            applyHashOrResume();
+            window.addEventListener("scroll", onScrollPersist, { passive: true });
           })
           .catch(function () {
             status.hidden = true;
             err.hidden = false;
-            err.textContent = "无法加载 qiyuandalu.txt。若本地直接打开本 HTML 文件，浏览器会限制跨源请求，请通过 cedar 的站点或本地静态服务器打开。";
+            err.textContent =
+              "无法加载 qiyuandalu.txt。若本地直接打开本 HTML 文件，浏览器会限制跨源请求，请通过 cedar 的站点或本地静态服务器打开。";
           });
+
+        window.addEventListener("hashchange", function () {
+          var hc = hashChapter();
+          if (hc != null && chapterExists(hc)) scrollToChapter(hc, false);
+        });
       })();
     </script>
   </body>
