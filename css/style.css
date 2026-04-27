@@ -651,8 +651,4 @@ button:focus-visible {
 }
 
 .read-toc-link:hover,
-.read-toc-link:focus-visible {
-  background: rgba(0, 102, 204, 0.08);
-  outline: none;
-}
 
