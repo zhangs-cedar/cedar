@@ -97,3 +97,5 @@
 - 图片压缩：<https://www.picdiet.com/zh-cn>（同首页「推荐平台」第二卡）。
 - 个人开发 **mac-commondX**（macOS 文件/文件夹剪切移动）：<https://github.com/zhangs-cedar/mac-commondX>（同首页「推荐平台」第三卡）。
 - 上海金交所数据资讯/行情：<https://www.sge.com.cn/sjzx/mrhq> — 与 cedar **央行黄金储备**图（**官方库存，万盎司**）口径不同；在 **`viz/gold-reserves.html`** 内已作**外链对照**（不嵌官网 iframe，防 X-Frame 拦截且更轻量）。
+- https://s.so-gov.cn/bm36000002/s?siteCode=bm36000002&tab=all&qt=70%E4%B8%AA%E5%A4%A7%E4%B8%AD%E5%9F%8E%E5%B8%82%E5%95%86%E5%93%81%E4%BD%8F%E5%AE%85%E9%94%80%E5%94%AE%E4%BB%B7%E6%A0%BC%E5%8F%98%E5%8A%A8%E6%83%85%E5%86%B5
+
