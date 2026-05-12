@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "title": "AI 工作流展示层",
+    "eyebrow": "Markdown source, HTML artifact",
+    "summary": "把 Markdown、JSON、Python 留作工程底稿，把复杂报告、方案对比和实验分析发布为 Cedar 上的静态 HTML 展示面板。",
+    "updated": "2026-05-13",
+    "source_note": "本页源数据来自 content/ai_workbench.json，由 scripts/generate_ai_workbench.py 生成。"
+  },
+  "principles": [
+    {"title": "Markdown 做 source", "body": "规范、规则、设计草稿、提示词和长期说明继续使用 Markdown，便于 diff、审阅和版本控制。"},
+    {"title": "JSON / CSV 做 data", "body": "实验指标、样本索引、方案评分和代码审查结果保存为结构化数据，避免把业务数据写死在页面里。"},
+    {"title": "HTML 做 artifact", "body": "需要搜索、筛选、折叠、表格排序、图片网格或方案对比时，生成单文件 HTML 并挂到 Cedar。"},
+    {"title": "Cedar 做 viewing layer", "body": "展示层集中放在 Cedar 的 viz/ 目录，主页提供入口，核心项目只保留源文档和生成脚本。"}
+  ],
+  "architecture": [
+    {"layer": "Source", "path": "docs/ 或 content/", "formats": "Markdown / YAML / JSON / CSV", "purpose": "长期可维护的工程事实、实验数据和规则。"},
+    {"layer": "Generator", "path": "scripts/ 或 tools/", "formats": "Python", "purpose": "读取源数据，生成可发布 HTML；脚本是展示层的单一生成入口。"},
+    {"layer": "Artifact", "path": "viz/*.html", "formats": "HTML + inline CSS + inline JS", "purpose": "可交互报告、实验看板、方案对比和代码审查视图。"},
+    {"layer": "Navigation", "path": "index.html", "formats": "静态入口页", "purpose": "集中发现所有可视化与工作流展示页面。"}
+  ],
+  "use_cases": [
+    {"name": "模型实验报告", "tags": ["metrics", "samples", "vision"], "description": "展示指标表、PR 曲线、混淆矩阵、失败样本缩略图和训练参数折叠区。", "source": "experiments/exp_xxx/metrics.json + samples/", "artifact": "viz/exp_xxx_report.html"},
+    {"name": "缺陷检测结果分析", "tags": ["false-negative", "false-positive", "filter"], "description": "按漏检、误检、小目标、过曝、纹理干扰等原因筛选样本，右侧展示单样本细节。", "source": "analysis/failures.json", "artifact": "viz/defect_failure_analysis.html"},
+    {"name": "代码审查报告", "tags": ["review", "diff", "risk"], "description": "按严重程度、文件、风险类型过滤审查意见，保留 Markdown 摘要作为 PR 描述。", "source": "reports/review_findings.json", "artifact": "viz/code_review_report.html"},
+    {"name": "方案对比", "tags": ["decision", "cost", "deployment"], "description": "把 OpenCV、YOLO、SAM、ViT、规则后处理等方案按速度、显存、维护风险和部署成本对比。", "source": "docs/options.md + content/options_score.json", "artifact": "viz/solution_compare.html"}
+  ],
+  "standards": [
+    "单文件 HTML，内联 CSS 和 JS，不依赖外部 CDN。",
+    "数据区和展示区分离，页面内保留 application/json 数据块。",
+    "支持搜索、筛选、折叠、表格排序和复制按钮。",
+    "移动端可读，桌面端信息密度高。",
+    "重要 HTML 必须能从 Markdown / JSON / Python 重新生成。",
+    "不要把 Cedar 生成产物当长期源文件手工维护。"
+  ],
+  "prompts": [
+    {"title": "生成实验报告", "text": "请读取当前项目的 experiments/ 目录和指标 JSON，生成一个 Cedar 可发布的单文件 HTML 报告。要求：数据和展示分离；支持目录导航、折叠区块、表格排序、关键词搜索；输出到 cedar/viz/experiment_report.html；不要修改核心训练代码。"},
+    {"title": "生成代码审查展示页", "text": "请把本次代码审查发现整理成 JSON 源数据，并生成 Cedar 的 HTML 展示页。页面包含严重程度筛选、文件筛选、风险标签、建议修改和可复制 patch 区块。"}
+  ]
+}

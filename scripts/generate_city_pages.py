@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 
 BASE_MONTH = "2014-01"
-SKILL_DATA_DIR = Path("/home/coder/.cursor/skills/cn-gold-house-price/data")
+SKILL_DATA_DIR = Path("/home/coder/.opencode/skills/cn-gold-house-price/data")
 SKILL_FANGJIA_DIR = SKILL_DATA_DIR / "fangjia"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 VIZ_DIR = REPO_ROOT / "viz"
@@ -57,6 +57,13 @@ INDEX_CARD_SUZHOU = (
     "苏州房价变化",
     "二手房与新房成交价格走势（元/㎡），含月度表与悬停环比",
     "与 70 城同套 ECharts 生成",
+)
+INDEX_CARD_AI_WORKBENCH = (
+    "viz/ai-workbench.html",
+    "Workbench",
+    "AI 工作流展示层",
+    "Markdown / JSON 做源数据，HTML 作为 Cedar 上的可交互展示产物",
+    "架构说明与提示词",
 )
 INDEX_PANEL_RECOMMEND_TITLE = "推荐平台"
 # 与 README「§9 推荐工具」一致，可在此增删外链卡片
@@ -313,6 +320,8 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{city}二手房与新房价格趋势</title>
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml" sizes="any" />
+
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 {_EMBED_BASE_STYLE}
 {_CITY_EMBED_TABLE_STYLE}
@@ -408,6 +417,8 @@ def render_city_page(
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="{desc}" />
     <title>{city}房价 · cedar</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" sizes="any" />
+
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body class="viz-page">
@@ -441,6 +452,8 @@ def render_gold_embed(months: list[str], amounts: list[float], deltas: list[floa
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>央行黄金储备</title>
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml" sizes="any" />
+
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <style>
       html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
@@ -538,6 +551,8 @@ def render_gold_shell() -> str:
       content="中国人民银行黄金储备月度趋势与购金变化量。"
     />
     <title>黄金储备 · cedar</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" sizes="any" />
+
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body class="viz-page">
@@ -616,6 +631,8 @@ def render_suzhou_yuan_embed(
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>苏州二手房与新房价格趋势</title>
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml" sizes="any" />
+
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 {_EMBED_BASE_STYLE}
 {_CITY_EMBED_TABLE_STYLE}
@@ -728,6 +745,8 @@ def render_cities_html(metadata: list[dict]) -> str:
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="{meta_esc}" />
     <title>70城房价总览 · cedar</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" sizes="any" />
+
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body class="viz-page cities-page">
@@ -823,6 +842,7 @@ def render_index_html() -> str:
     hc, k0, t0, s0, m0 = INDEX_CARD_CITIES
     hg, k1, t1, s1, m1 = INDEX_CARD_GOLD
     hs, k2, t2, s2, m2 = INDEX_CARD_SUZHOU
+    hw, kw, tw, sw, mw = INDEX_CARD_AI_WORKBENCH
     pdf_h, pdf_k, pdf_t, pdf_s, pdf_m = INDEX_CARD_PDF24
     pic_h, pic_k, pic_t, pic_s, pic_m = INDEX_CARD_PICDIET
     cmdx_h, cmdx_k, cmdx_t, cmdx_s, cmdx_m = INDEX_CARD_CMDX
@@ -870,6 +890,8 @@ def render_index_html() -> str:
     <meta name="description" content="{ea(INDEX_META_DESCRIPTION)}" />
     <meta name="theme-color" content="{ea(INDEX_THEME_COLOR)}" />
     <title>cedar</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
+
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="home-page">
@@ -904,6 +926,12 @@ def render_index_html() -> str:
             <span class="entry-title">{et(t2)}</span>
             <span class="entry-sub">{et(s2)}</span>
             <span class="entry-meta">{et(m2)}</span>
+          </a>
+          <a class="entry-card" href="{ea(hw)}">
+            <span class="entry-kicker">{et(kw)}</span>
+            <span class="entry-title">{et(tw)}</span>
+            <span class="entry-sub">{et(sw)}</span>
+            <span class="entry-meta">{et(mw)}</span>
           </a>
         </div>
       </section>
@@ -998,6 +1026,8 @@ def write_suzhou_pages() -> None:
     <meta charset="utf-8" />
     <meta http-equiv="refresh" content="0; url=city-suzhou-house-price.html" />
     <title>苏州房价 · cedar</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" sizes="any" />
+
     <link rel="canonical" href="city-suzhou-house-price.html" />
   </head>
   <body>

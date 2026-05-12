@@ -33,10 +33,11 @@
 | 单城房价 | `viz/city-<slug>-house-price.html` + `viz/embed/city-*-house-price-trend.html` — **由脚本生成**。 |
 | 苏州（元/㎡） | `viz/city-suzhou-house-price.html` 等 — **由脚本生成**，指标为成交均价。 |
 | 黄金储备 | `viz/gold-reserves.html` + `viz/embed/gold-reserves-trend.html` — **由脚本生成**。 |
+| AI 工作流展示层 | `viz/ai-workbench.html` — 由 `content/ai_workbench.json` + `scripts/generate_ai_workbench.py` 生成；用于把 Markdown/JSON/Python 源数据转成 Cedar 可查看的交互式 HTML。 |
 
 城市列表与元数据：`viz/cities.json`（**由脚本生成**）。
 
-**样式** `css/` 仍手维护；**其余上表所列 HTML（含首页）均由 `generate_city_pages.py` 写出**。
+**样式** `css/` 仍手维护；房价/黄金/首页由 `generate_city_pages.py` 写出，AI 工作流展示页由 `generate_ai_workbench.py` 写出。
 
 ---
 
@@ -57,6 +58,7 @@
 | **构建** | 仓库 **不设打包构建**；GitHub Actions 将仓库根目录 **原样** 部署为 Pages（见 `.github/workflows/deploy.yml`）。 |
 | **发布** | 合并/推送到 **`main`** → Workflow 部署 → 数分钟内站点更新。 |
 | **本地再生** | 在仓库根执行：`python3 scripts/generate_city_pages.py`。数据路径见脚本顶部（默认同 skill 数据目录）。 |
+| **AI 展示层再生** | 在仓库根执行：`python3 scripts/generate_ai_workbench.py`。源数据为 `content/ai_workbench.json`，产物为 `viz/ai-workbench.html`。 |
 
 ### 5.1 生成规范（给 AI / 协作者，建议当作硬约束）
 
@@ -98,4 +100,3 @@
 - 个人开发 **mac-commondX**（macOS 文件/文件夹剪切移动）：<https://github.com/zhangs-cedar/mac-commondX>（同首页「推荐平台」第三卡）。
 - 上海金交所数据资讯/行情：<https://www.sge.com.cn/sjzx/mrhq> — 与 cedar **央行黄金储备**图（**官方库存，万盎司**）口径不同；在 **`viz/gold-reserves.html`** 内已作**外链对照**（不嵌官网 iframe，防 X-Frame 拦截且更轻量）。
 - https://s.so-gov.cn/bm36000002/s?siteCode=bm36000002&tab=all&qt=70%E4%B8%AA%E5%A4%A7%E4%B8%AD%E5%9F%8E%E5%B8%82%E5%95%86%E5%93%81%E4%BD%8F%E5%AE%85%E9%94%80%E5%94%AE%E4%BB%B7%E6%A0%BC%E5%8F%98%E5%8A%A8%E6%83%85%E5%86%B5
-
