@@ -325,10 +325,9 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{city}二手房与新房价格趋势</title>
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml" sizes="any" />
-
+    <link rel="stylesheet" href="chart-common.css" />
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-{_EMBED_BASE_STYLE}
-{_CITY_EMBED_TABLE_STYLE}
+    <script src="chart-common.js"></script>
   </head>
   <body>
     <div class="wrap">
@@ -355,48 +354,7 @@ def render_embed(city: str, first: list[tuple[str, float]], second: list[tuple[s
     <script>
       const firstData = {first_json};
       const secondData = {second_json};
-      const chart = echarts.init(document.getElementById("chart"));
-      chart.setOption({{
-        animationDuration: 300,
-        legend: {{ top: 4, data: ["二手住宅", "新建商品住宅"] }},
-        tooltip: {{
-          trigger: "axis",
-          {_TOOLTIP_AXIS_MOM_INDEX}
-        }},
-        grid: {{ left: 56, right: 26, top: 42, bottom: 56 }},
-        xAxis: {{
-          type: "category",
-          data: secondData.map((d) => d.month),
-          axisLabel: {{ color: "#6e6e73", interval: 8 }}
-        }},
-        yAxis: {{
-          type: "value",
-          name: "定基指数（价格走势）",
-          axisLabel: {{ color: "#6e6e73" }},
-          splitLine: {{ lineStyle: {{ color: "rgba(29,29,31,0.12)" }} }}
-        }},
-        series: [
-          {{
-            name: "二手住宅",
-            type: "line",
-            smooth: true,
-            showSymbol: false,
-            connectNulls: false,
-            data: secondData.map((d) => d.value),
-            lineStyle: {{ width: 2, color: "#0066cc" }}
-          }},
-          {{
-            name: "新建商品住宅",
-            type: "line",
-            smooth: true,
-            showSymbol: false,
-            connectNulls: false,
-            data: firstData.map((d) => d.value),
-            lineStyle: {{ width: 2, color: "#34a853" }}
-          }}
-        ]
-      }});
-      window.addEventListener("resize", () => chart.resize());
+      initCityChart("chart", "{city}", "新建商品住宅", "二手住宅", firstData, secondData);
     </script>
   </body>
 </html>
@@ -457,13 +415,11 @@ def render_gold_embed(months: list[str], amounts: list[float], deltas: list[floa
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>央行黄金储备</title>
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml" sizes="any" />
-
+    <link rel="stylesheet" href="chart-common.css" />
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script src="chart-common.js"></script>
     <style>
-      html, body {{ margin: 0; background: #fff; color: #1d1d1f; font-family: "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; }}
-      .wrap {{ padding: 18px 18px 6px; }}
-      .meta {{ margin: 0 0 12px; color: #6e6e73; font-size: 13px; }}
-      #chart {{ width: 100%; height: 720px; }}
+      #chart {{ height: 720px; }}
     </style>
   </head>
   <body>
@@ -475,66 +431,7 @@ def render_gold_embed(months: list[str], amounts: list[float], deltas: list[floa
       const months = {months_j};
       const amounts = {amounts_j};
       const deltas = {deltas_j};
-      const chart = echarts.init(document.getElementById("chart"));
-      chart.setOption({{
-        animationDuration: 300,
-        tooltip: {{
-          trigger: "axis",
-          axisPointer: {{ type: "cross" }},
-          {_TOOLTIP_NUMBER}
-        }},
-        axisPointer: {{ link: [{{ xAxisIndex: "all" }}] }},
-        grid: [
-          {{ left: 56, right: 26, top: 42, height: 260 }},
-          {{ left: 56, right: 26, top: 374, height: 260 }}
-        ],
-        xAxis: [
-          {{ type: "category", data: months, axisLabel: {{ color: "#6e6e73", interval: 4 }}, gridIndex: 0 }},
-          {{ type: "category", data: months, axisLabel: {{ color: "#6e6e73", interval: 4 }}, gridIndex: 1 }}
-        ],
-        yAxis: [
-          {{
-            type: "value",
-            name: "万盎司",
-            gridIndex: 0,
-            axisLabel: {{ color: "#6e6e73" }},
-            splitLine: {{ lineStyle: {{ color: "rgba(29,29,31,0.12)" }} }}
-          }},
-          {{
-            type: "value",
-            name: "月度变化",
-            gridIndex: 1,
-            axisLabel: {{ color: "#6e6e73" }},
-            splitLine: {{ lineStyle: {{ color: "rgba(29,29,31,0.12)" }} }}
-          }}
-        ],
-        series: [
-          {{
-            name: "黄金储备",
-            type: "line",
-            xAxisIndex: 0,
-            yAxisIndex: 0,
-            smooth: true,
-            showSymbol: false,
-            data: amounts,
-            lineStyle: {{ width: 2, color: "#b8860b" }}
-          }},
-          {{
-            name: "月度变化",
-            type: "bar",
-            xAxisIndex: 1,
-            yAxisIndex: 1,
-            data: deltas.map((v, i) => ({{
-              value: v,
-              itemStyle: {{
-                color: v == null ? "transparent" : v > 0 ? "#34a853" : v < 0 ? "#ea4335" : "#6e6e73"
-              }}
-            }})),
-            barMaxWidth: 16
-          }}
-        ]
-      }});
-      window.addEventListener("resize", () => chart.resize());
+      initGoldChart("chart", months, amounts, deltas);
     </script>
   </body>
 </html>
@@ -609,26 +506,6 @@ def render_suzhou_yuan_embed(
     ]
     data_j = json.dumps(payload, ensure_ascii=False)
     table_body = _html_yuan_table_rows(payload)
-    _suzhou_tooltip = """axisPointer: { type: "cross" },
-          formatter: function (params) {
-          const fmt = (v) => (v == null || v === "" || Number.isNaN(Number(v)) ? "—" : Number(v).toLocaleString("zh-CN", { maximumFractionDigits: 0 }));
-          const lineFor = (p) => {
-            const i = p.dataIndex;
-            const row = rows[i];
-            const cur = p.seriesName === "新建商品住宅" ? row.new : row.second;
-            let extra = "";
-            if (i > 0) {
-              const prevRow = rows[i - 1];
-              const prev = p.seriesName === "新建商品住宅" ? prevRow.new : prevRow.second;
-              if (prev != null && prev !== 0 && cur != null && !Number.isNaN(Number(prev)) && !Number.isNaN(Number(cur))) {
-                const pct = (cur / prev - 1) * 100;
-                extra = " · 较上月 " + (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
-              }
-            }
-            return p.marker + p.seriesName + ": " + fmt(cur) + extra;
-          };
-          return params[0].axisValue + "<br/>" + params.map(lineFor).join("<br/>");
-        }"""
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -636,10 +513,9 @@ def render_suzhou_yuan_embed(
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>苏州二手房与新房价格趋势</title>
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml" sizes="any" />
-
+    <link rel="stylesheet" href="chart-common.css" />
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-{_EMBED_BASE_STYLE}
-{_CITY_EMBED_TABLE_STYLE}
+    <script src="chart-common.js"></script>
   </head>
   <body>
     <div class="wrap">
@@ -665,48 +541,7 @@ def render_suzhou_yuan_embed(
     </div>
     <script>
       const rows = {data_j};
-      const chart = echarts.init(document.getElementById("chart"));
-      chart.setOption({{
-        animationDuration: 300,
-        legend: {{ top: 4, data: ["二手住宅", "新建商品住宅"] }},
-        tooltip: {{
-          trigger: "axis",
-          {_suzhou_tooltip}
-        }},
-        grid: {{ left: 56, right: 26, top: 42, bottom: 56 }},
-        xAxis: {{
-          type: "category",
-          data: rows.map((d) => d.month),
-          axisLabel: {{ color: "#6e6e73", interval: 8 }}
-        }},
-        yAxis: {{
-          type: "value",
-          name: "成交均价（元/㎡）",
-          axisLabel: {{ color: "#6e6e73" }},
-          splitLine: {{ lineStyle: {{ color: "rgba(29,29,31,0.12)" }} }}
-        }},
-        series: [
-          {{
-            name: "二手住宅",
-            type: "line",
-            smooth: true,
-            showSymbol: false,
-            connectNulls: false,
-            data: rows.map((d) => d.second),
-            lineStyle: {{ width: 2, color: "#0066cc" }}
-          }},
-          {{
-            name: "新建商品住宅",
-            type: "line",
-            smooth: true,
-            showSymbol: false,
-            connectNulls: false,
-            data: rows.map((d) => d.new),
-            lineStyle: {{ width: 2, color: "#34a853" }}
-          }}
-        ]
-      }});
-      window.addEventListener("resize", () => chart.resize());
+      initSuzhouChart("chart", rows);
     </script>
   </body>
 </html>
