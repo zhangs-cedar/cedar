@@ -1,0 +1,8 @@
+# 生成文件 — 由 generate_city_pages.py 自动写入，禁止手改
+viz/embed/*.html -diff
+viz/city-*-house-price.html -diff
+viz/cities.html -diff
+viz/cities.json -diff
+index.html -diff
+viz/gold-reserves.html -diff
+viz/suzhou-house-price.html -diff

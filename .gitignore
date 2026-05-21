@@ -1,2 +1,8 @@
 __pycache__/
 *.py[cod]
+temp.txt
+.DS_Store
+node_modules/
+*.egg-info/
+dist/
+build/

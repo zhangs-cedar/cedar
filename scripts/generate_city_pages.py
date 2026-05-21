@@ -12,10 +12,14 @@ from __future__ import annotations
 
 import html
 import json
+import os
 from pathlib import Path
 
 BASE_MONTH = "2014-01"
-SKILL_DATA_DIR = Path("/home/coder/.opencode/skills/cn-gold-house-price/data")
+SKILL_DATA_DIR = Path(os.environ.get(
+    "SKILL_DATA_DIR",
+    str(Path.home() / ".config/opencode/skills/cn-gold-house-price/data")
+))
 SKILL_FANGJIA_DIR = SKILL_DATA_DIR / "fangjia"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 VIZ_DIR = REPO_ROOT / "viz"
